@@ -1,5 +1,3 @@
 package com.example.duoswipe.ui.register
 
-class RegisterState {
-
-}
+data class RegisterState (var fullName:String="",var eMail:String="",var password:String="")

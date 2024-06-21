@@ -1,4 +1,3 @@
 package com.example.duoswipe.ui.login
 
-class LoginState {
-}
+data class LoginState (var email:String="",var password:String="")

@@ -76,6 +76,17 @@ fun CommonTextField(
         else VisualTransformation.None
     )
 }
+
+@Preview
+@Composable
+fun preTextField(){
+    CommonTextField(
+        text = "Nasuh",
+        placeholder = "Nasuh",
+        false,
+        onValueChange = {}
+    )
+}
 @Composable
 fun CommonGoogleButton(
     text: String

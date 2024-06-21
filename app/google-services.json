@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "643012975107",
+    "project_id": "duoswipe-d6fdd",
+    "storage_bucket": "duoswipe-d6fdd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:643012975107:android:24aea62e0bd193450dcc36",
+        "android_client_info": {
+          "package_name": "com.example.duoswipe"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRwbyQXlGkPBYw9dNuga1F-A6B2IkWC-U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

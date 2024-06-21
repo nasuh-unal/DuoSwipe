@@ -1,5 +1,6 @@
 package com.example.duoswipe.ui.login
-
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,6 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.duoswipe.ui.CommonGoogleButton
@@ -32,11 +35,11 @@ import com.example.duoswipe.ui.CommonText
 import com.example.duoswipe.ui.CommonTextField
 
 @Composable
-fun LoginScreen(navController: NavController) {
-
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-
+fun LoginScreen(
+    navController: NavController,
+    loginViewModel: LoginViewModel = viewModel()
+) {
+    val loginUiState by loginViewModel.loginUiState.collectAsState()
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -44,12 +47,16 @@ fun LoginScreen(navController: NavController) {
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 30.dp, vertical = 20.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 30.dp, vertical = 20.dp)
         ) {
             Column(
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
             ) {
+                Spacer(modifier = Modifier.height(60.dp))
                 CommonText(
                     text = "Sign in to continue!",
                     fontSize = 28.sp,
@@ -58,16 +65,16 @@ fun LoginScreen(navController: NavController) {
             }
             Spacer(modifier = Modifier.height(60.dp))
             CommonTextField(
-                text = email,
+                text = loginUiState.email,
                 placeholder = "Email",
-                onValueChange = { email = it },
+                onValueChange = { loginUiState.email = it },
                 isPasswordTextField = false
             )
             Spacer(modifier = Modifier.height(16.dp))
             CommonTextField(
-                text = password,
+                text = loginUiState.password,
                 placeholder = "Password",
-                onValueChange = { password = it },
+                onValueChange = { loginUiState.password = it },
                 isPasswordTextField = true
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -80,7 +87,7 @@ fun LoginScreen(navController: NavController) {
             )
             Spacer(modifier = Modifier.weight(0.1f))
             CommonLoginButton(text = "Login", modifier = Modifier.fillMaxWidth()) {
-                if (email == "adem" && password == "12345") {
+                if (loginUiState.email == "adem" && loginUiState.password == "12345") {
                     println("Giris basarili.")
                 } else {
                     println("Giris basarisiz.")
@@ -96,18 +103,23 @@ fun LoginScreen(navController: NavController) {
             ) {
                 CommonText(text = "I'm a new user,", fontSize = 18.sp) {}
                 Spacer(modifier = Modifier.width(4.dp))
-                CommonText(
+                Text(
                     text = "Sign Up",
-                    color = Color.Red,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.W500
-                ) {
-                    navController.navigate("register_screen")
-                }
+                    modifier = Modifier
+                        .clickable { navController.navigate("register_screen") }
+                        .padding(16.dp),
+                    fontSize = 18.sp
+                )
+//                Text(
+//                    text = "Sing Up",
+//                    fontSize = 18.sp,
+//                    Modifier.clickable { navController.navigate("register_screen") }
+//                )
             }
         }
     }
 }
+
 @Preview
 @Composable
 fun previewLoginScreen() {
