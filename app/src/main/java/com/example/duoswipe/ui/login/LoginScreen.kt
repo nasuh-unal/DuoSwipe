@@ -1,5 +1,4 @@
 package com.example.duoswipe.ui.login
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,20 +14,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.duoswipe.ui.CommonGoogleButton
 import com.example.duoswipe.ui.CommonLoginButton
 import com.example.duoswipe.ui.CommonText
@@ -40,10 +35,12 @@ fun LoginScreen(
     loginViewModel: LoginViewModel = viewModel()
 ) {
     val loginUiState by loginViewModel.loginUiState.collectAsState()
+    val context = LocalContext.current
     Surface(
         modifier = Modifier
             .fillMaxSize()
     ) {
+
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -94,7 +91,7 @@ fun LoginScreen(
                 }
             }
             Spacer(modifier = Modifier.height(24.dp))
-            CommonGoogleButton(text = "Connect with Google")
+            CommonGoogleButton(text = "Connect with Google",{})
             Spacer(modifier = Modifier.weight(0.4f))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -110,19 +107,8 @@ fun LoginScreen(
                         .padding(16.dp),
                     fontSize = 18.sp
                 )
-//                Text(
-//                    text = "Sing Up",
-//                    fontSize = 18.sp,
-//                    Modifier.clickable { navController.navigate("register_screen") }
-//                )
             }
         }
     }
 }
 
-@Preview
-@Composable
-fun previewLoginScreen() {
-    val navController = rememberNavController()
-    LoginScreen(navController)
-}

@@ -74,6 +74,7 @@ dependencies {
     implementation(libs.firebase.play.services.auth)
 
     implementation(libs.hilt.android)
+    implementation(libs.firebase.auth)
     ksp(libs.hilt.compiler)
 
     testImplementation(libs.junit)
@@ -89,5 +90,8 @@ dependencies {
     implementation (libs.kotlinx.coroutines.android)
     implementation (libs.kotlinx.coroutines.rx2)
     implementation (libs.androidx.lifecycle.runtime.ktx)
+
+    implementation (libs.coil)
+    implementation (libs.coil.compose)
 
 }

@@ -89,10 +89,11 @@ fun preTextField(){
 }
 @Composable
 fun CommonGoogleButton(
-    text: String
+    text: String,
+    onClick: () -> Unit
 ) {
     Button(
-        onClick = { },
+        onClick = { onClick },
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.White
         ),

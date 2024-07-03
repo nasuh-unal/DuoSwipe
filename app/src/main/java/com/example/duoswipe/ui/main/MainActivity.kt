@@ -1,26 +1,39 @@
 package com.example.duoswipe.ui.main
+
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.duoswipe.ui.register.GoogleAuthUiClient
+import com.example.duoswipe.data.model.AuthState
+import com.example.duoswipe.data.model.DataProvider
+import com.example.duoswipe.ui.profile.ProfileScreen
+import com.example.duoswipe.ui.register.AuthViewModel
+import com.example.duoswipe.ui.register.RegisterScreen
 import com.example.duoswipe.ui.theme.DuoSwipeTheme
 import com.google.android.gms.auth.api.identity.Identity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val viewModel: MainViewModel by viewModels()
+    private val authViewModel by viewModels<AuthViewModel>()
 
-    private val googleAuthUiClient by lazy {
-        GoogleAuthUiClient(
-            context=applicationContext,
-            oneTapClient = Identity.getSignInClient(applicationContext)
-        )
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen().apply {
@@ -30,59 +43,22 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
             DuoSwipeTheme {
-                MainScreen(googleAuthUiClient)
+                val currentUser = authViewModel.currentUser.collectAsState().value
+                DataProvider.updateAuthState(currentUser)
+
+                Log.i("AuthRepo", "Authenticated: ${DataProvider.isAuthenticated}")
+                Log.i("AuthRepo", "Anonymous: ${DataProvider.isAnonymous}")
+                Log.i("AuthRepo", "User: ${DataProvider.user}")
+
+                val navController = rememberNavController()
+
+                if (DataProvider.authState != AuthState.SignedOut) {
+                    ProfileScreen(authViewModel)
+                } else {
+                    RegisterScreen(authViewModel)
+                }
             }
         }
     }
 }
 
-
-
-
-
-
-/*
-@Composable
-fun Navigation() {
-    val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "login_screen") {
-        composable("login_screen") {
-            LoginScreen(navController)
-        }
-    }
-}*/
-/*
-@Composable
-private fun SplashScreen(navController: NavController) {
-
-    val scale = remember {
-        Animatable(0f)
-    }
-
-    LaunchedEffect(true) {
-        scale.animateTo(
-            targetValue = 1.0f,
-            animationSpec = tween(
-                durationMillis = 500,
-                easing = {
-                    OvershootInterpolator(2f).getInterpolation(it)
-                }
-            )
-        )
-        delay(3000L)
-        navController.navigate("main_screen")
-    }
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                Color(0xFFFFF9DB)
-            ),
-        contentAlignment = Alignment.Center
-    ) {
-        Image(
-            modifier = Modifier.scale(scale.value),
-            painter = painterResource(id = R.drawable.logo), contentDescription = null
-        )
-    }
-}*/
