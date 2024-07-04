@@ -8,7 +8,6 @@ import com.google.firebase.auth.FirebaseUser
 enum class AuthState {
     Authenticated, SignedIn, SignedOut;
 }
-
 object DataProvider {
     var anonymusSignInResponse by mutableStateOf<FirebaseSignInResponse>(Response.Success(null))
     var oneTapSignInResponse by mutableStateOf<OneTapSignInResponse>(Response.Success(null))
@@ -35,5 +34,4 @@ object DataProvider {
             AuthState.SignedOut
         }
     }
-
 }

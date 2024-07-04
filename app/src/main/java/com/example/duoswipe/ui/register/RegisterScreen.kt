@@ -33,12 +33,9 @@ import com.google.android.gms.common.api.ApiException
 
 @Composable
 fun RegisterScreen(
-    //navController: NavController,
     authViewModel: AuthViewModel,
     loginState: MutableState<Boolean>? = null
 ) {
-    //val registerUiState by registerViewModel.registerUiState.collectAsState()
-
     val launcher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -63,8 +60,6 @@ fun RegisterScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        //val context = LocalContext.current
-
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -146,9 +141,3 @@ fun RegisterScreen(
     }
 }
 
-//@Preview
-//@Composable
-//fun previewRegister() {
-//    val a = rememberNavController()
-//    RegisterScreen(a)
-//}
