@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Card
 import androidx.compose.ui.unit.dp
-import com.example.duoswipe.ui.register.AuthViewModel
+import com.example.duoswipe.ui.signUp.AuthViewModel
 import android.app.Activity
 import android.util.Log
 import androidx.activity.result.IntentSenderRequest
@@ -19,28 +19,22 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ComposeCompilerApi
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.duoswipe.data.model.AuthState
 import com.example.duoswipe.data.model.DataProvider
-import com.example.duoswipe.data.repository.AuthRepository
 import com.example.duoswipe.ui.component.OneTapSignIn
-import com.example.duoswipe.ui.theme.DuoSwipeTheme
 import com.google.android.gms.auth.api.identity.BeginSignInResult
-import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.common.api.ApiException
 
 @Composable
@@ -95,7 +89,7 @@ fun ProfileScreen(
             ) {
                 if (authState == AuthState.SignedIn) {
                     Text(
-                        DataProvider.user?.displayName ?: "Name Placeholder",
+                        DataProvider.user?.displayName?: "Name Placeholder",
                         fontWeight = FontWeight.Bold
                     )
                     Text(DataProvider.user?.email ?: "Email Placeholder")
@@ -153,6 +147,10 @@ fun ProfileScreen(
         AnimatedVisibility(visible = openDeleteAccountAlertDialog.value) {
             AlertDialog(
                 onDismissRequest = { openDeleteAccountAlertDialog.value = false },
+                title = { Text("Delete Account") },
+                text = {
+                    Text("Deleting account is permanent. Are you sure you want to delete your account?")
+                },
                 confirmButton = {
                     TextButton(
                         onClick = {
@@ -180,11 +178,3 @@ fun ProfileScreen(
         }
     )
 }
-
-//@Preview
-//@Composable
-//fun ProfileScreenPreview() {
-//    DuoSwipeTheme {
-//        ProfileScreen(hiltViewModel())
-//    }
-//}

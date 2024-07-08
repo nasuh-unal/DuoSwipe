@@ -1,4 +1,4 @@
-package com.example.duoswipe.ui.register
+package com.example.duoswipe.ui.signUp
 
 import android.app.Activity
 import android.util.Log
@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment

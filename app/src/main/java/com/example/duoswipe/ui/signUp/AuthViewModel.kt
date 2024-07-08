@@ -1,4 +1,4 @@
-package com.example.duoswipe.ui.register
+package com.example.duoswipe.ui.signUp
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

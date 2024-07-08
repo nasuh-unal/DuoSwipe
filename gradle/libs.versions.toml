@@ -21,6 +21,7 @@ firebasePlayServices="20.4.1"
 firebaseAuthVersion = "23.0.0"
 coil = "2.1.0"
 material3 = "1.2.1"
+compose = "1.9.0"
 
 
 [libraries]

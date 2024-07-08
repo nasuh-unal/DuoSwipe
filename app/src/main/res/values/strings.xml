@@ -1,5 +1,15 @@
 <resources>
     <string name="app_name">DuoSwipe</string>
     <string name="web_client_id">643012975107-mkipeasmhpv78ecahd6eapicde2rtolm.apps.googleusercontent.com</string>
+    <string name="hi_there">Hey there,</string>
+    <string name="create_account">Create an Account</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="e_mail">Email</string>
+    <string name="password">Password</string>
+    <string name="hide_password">Hide Password</string>
+    <string name="show_password">Show Password</string>
+
 
 </resources>
