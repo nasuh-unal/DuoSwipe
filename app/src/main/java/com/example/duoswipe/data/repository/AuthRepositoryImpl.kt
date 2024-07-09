@@ -2,7 +2,6 @@ package com.example.duoswipe.data.repository
 
 import android.content.ContentValues.TAG
 import android.util.Log
-import com.example.duoswipe.data.model.AuthStateResponse
 import com.example.duoswipe.data.model.Constants
 import com.example.duoswipe.data.model.DataProvider
 import com.example.duoswipe.data.model.DeleteAccountResponse
@@ -10,6 +9,7 @@ import com.example.duoswipe.data.model.FirebaseSignInResponse
 import com.example.duoswipe.data.model.OneTapSignInResponse
 import com.example.duoswipe.data.model.Response
 import com.example.duoswipe.data.model.SignOutResponse
+import com.example.duoswipe.data.model.SignUpResponse
 import com.example.duoswipe.data.model.isWithinPast
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.SignInClient
@@ -72,11 +72,7 @@ class AuthRepositoryImpl @Inject constructor(
         return false
     }
 
-    override suspend fun signInAnonymously(): FirebaseSignInResponse {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun onTapSignIn(): OneTapSignInResponse {
+    override suspend fun oneTapSignIn(): OneTapSignInResponse {
         return try {
             val signInResult = oneTapClient.beginSignIn(signInRequest).await()
             Response.Success(signInResult)
@@ -106,6 +102,18 @@ class AuthRepositoryImpl @Inject constructor(
         return authenticateUser(googleCredential)
     }
 
+    override suspend fun firebaseSignUpWithEmailAndPassword(
+        email: String,
+        password: String
+    ): SignUpResponse {
+        return try {
+            auth.createUserWithEmailAndPassword(email, password).await()
+            Response.Success(true)
+        } catch (e: Exception) {
+            Response.Failure(e)
+        }
+    }
+
     override suspend fun authorizeGoogleSignIn(): String? {
         auth.currentUser?.let { user ->
             if (user.providerData.map { it.providerId }.contains("google.com")) {
@@ -119,18 +127,20 @@ class AuthRepositoryImpl @Inject constructor(
         }
         return null
     }
-    private suspend fun reauthenticate(googleIdToken: String) {
+
+    private suspend fun reAuthenticate(googleIdToken: String) {
         val googleCredential = GoogleAuthProvider
             .getCredential(googleIdToken, null)
         auth.currentUser?.reauthenticate(googleCredential)?.await()
     }
+
     override suspend fun deleteUserAccount(googleIdToken: String?): DeleteAccountResponse {
         return try {
             auth.currentUser?.let { user ->
                 if (user.providerData.map { it.providerId }.contains("google.com")) {
                     // Re-authenticate if needed
                     if (checkNeedsReAuth() && googleIdToken != null) {
-                        reauthenticate(googleIdToken)
+                        reAuthenticate(googleIdToken)
                     }
                     // Revoke
                     googleSignInClient.revokeAccess().await()
@@ -142,8 +152,7 @@ class AuthRepositoryImpl @Inject constructor(
             }
             Log.e(TAG, "FirebaseAuthError: Current user is not available")
             Response.Success(false)
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             Log.e(TAG, "FirebaseAuthError: Failed to delete user")
             Response.Failure(e)
         }
@@ -194,6 +203,4 @@ class AuthRepositoryImpl @Inject constructor(
             Response.Failure(error)
         }
     }
-
-
 }

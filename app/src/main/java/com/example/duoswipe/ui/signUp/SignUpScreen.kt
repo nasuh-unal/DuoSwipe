@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.example.duoswipe.R
 import com.example.duoswipe.ui.component.HeadingText
 import com.example.duoswipe.ui.component.NormalText
+import com.example.duoswipe.ui.component.PasswordTextField
 import com.example.duoswipe.ui.component.TextField
 
 @Composable
@@ -44,7 +45,7 @@ fun SignUpScreen() {
                 labelValue = stringResource(id = R.string.e_mail),
                 painterResource(id = R.drawable.baseline_alternate_email_24)
             )
-            TextField(
+            PasswordTextField(
                 labelValue = stringResource(id = R.string.password),
                 painterResource(id = R.drawable.sharp_add_moderator_24)
             )

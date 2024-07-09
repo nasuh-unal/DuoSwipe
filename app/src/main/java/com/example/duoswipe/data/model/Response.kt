@@ -10,6 +10,8 @@ typealias FirebaseSignInResponse = Response<AuthResult>
 typealias SignOutResponse = Response<Boolean>
 typealias AuthStateResponse = StateFlow<FirebaseUser?>
 typealias DeleteAccountResponse = Response<Boolean>
+typealias SignUpResponse = Response<Boolean>
+
 
 sealed class Response<out T> {
     object Loading: Response<Nothing>()

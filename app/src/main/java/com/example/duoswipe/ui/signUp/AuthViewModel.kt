@@ -33,7 +33,7 @@ class AuthViewModel @Inject constructor(
 
     fun oneTapSignIn() = CoroutineScope(Dispatchers.IO).launch {
         DataProvider.oneTapSignInResponse = Response.Loading
-        DataProvider.oneTapSignInResponse = repository.onTapSignIn()
+        DataProvider.oneTapSignInResponse = repository.oneTapSignIn()
     }
 
     fun signOut() = CoroutineScope(Dispatchers.IO).launch {

@@ -8,11 +8,9 @@ import androidx.activity.viewModels
 import androidx.compose.runtime.collectAsState
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
-import com.example.duoswipe.data.model.AuthState
 import com.example.duoswipe.data.model.DataProvider
-import com.example.duoswipe.ui.profile.ProfileScreen
 import com.example.duoswipe.ui.signUp.AuthViewModel
-import com.example.duoswipe.ui.signUp.RegisterScreen
+import com.example.duoswipe.ui.signUp.SignUpScreen
 import com.example.duoswipe.ui.theme.DuoSwipeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,12 +37,12 @@ class MainActivity : ComponentActivity() {
                 Log.i("AuthRepo", "User: ${DataProvider.user}")
 
                 val navController = rememberNavController()
-
-                if (DataProvider.authState != AuthState.SignedOut) {
-                    ProfileScreen(authViewModel)
-                } else {
-                    RegisterScreen(authViewModel)
-                }
+                SignUpScreen()
+//                if (DataProvider.authState != AuthState.SignedOut) {
+//                    ProfileScreen(authViewModel)
+//                } else {
+//                    RegisterScreen(authViewModel)
+//                }
             }
         }
     }
