@@ -30,6 +30,8 @@ fun TextField(labelValue: String, painterResource: Painter) {
         modifier = Modifier.fillMaxWidth(),
         label = { Text(text = labelValue) },
         keyboardOptions = KeyboardOptions.Default,
+        maxLines = 1,
+        singleLine = true,
         value = textValue,
         onValueChange = { textValue = it },
         leadingIcon = {
@@ -39,5 +41,11 @@ fun TextField(labelValue: String, painterResource: Painter) {
             )
         }
     )
+}
+
+@Preview
+@Composable
+fun prevTextField(){
+    TextField("nasuh", painterResource(id = R.drawable.baseline_alternate_email_24))
 }
 

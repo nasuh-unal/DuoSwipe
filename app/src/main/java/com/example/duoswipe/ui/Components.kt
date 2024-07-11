@@ -102,7 +102,7 @@ fun CommonGoogleButton(
             .background(Color.White, RoundedCornerShape(20.dp))
             .fillMaxWidth()
             .height(58.dp)
-            .border(3.dp, Color.Black, RoundedCornerShape(25.dp))
+            .border(3.dp, Color.Blue, RoundedCornerShape(25.dp))
     ) {
         Row(
             modifier = Modifier

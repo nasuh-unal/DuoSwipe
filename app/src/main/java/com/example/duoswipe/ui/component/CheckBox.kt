@@ -18,8 +18,7 @@ fun CheckBoxComponent(value: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn()
-            .padding(16.dp),
+            .heightIn(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         val checkedState = remember {
@@ -30,6 +29,6 @@ fun CheckBoxComponent(value: String) {
             onCheckedChange = {
                 checkedState.value != checkedState.value
             })
-
+        ClickableText(value = value)
     }
 }
