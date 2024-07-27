@@ -89,7 +89,7 @@ fun ProfileScreen(
             ) {
                 if (authState == AuthState.SignedIn) {
                     Text(
-                        DataProvider.user?.displayName?: "Name Placeholder",
+                        DataProvider.user?.displayName ?: "Name Placeholder",
                         fontWeight = FontWeight.Bold
                     )
                     Text(DataProvider.user?.email ?: "Email Placeholder")

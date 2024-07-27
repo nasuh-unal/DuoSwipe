@@ -2,7 +2,6 @@ package com.example.duoswipe.ui.signUp
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -20,9 +18,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.duoswipe.R
-import com.example.duoswipe.ui.CommonGoogleButton
 import com.example.duoswipe.ui.component.ButtonComponent
 import com.example.duoswipe.ui.component.CheckBoxComponent
+import com.example.duoswipe.ui.component.ClickableLoginOrSignUpTextComponent
 import com.example.duoswipe.ui.component.DividerTextComponent
 import com.example.duoswipe.ui.component.GoogleButtonComponent
 import com.example.duoswipe.ui.component.HeadingText
@@ -58,11 +56,11 @@ fun SignUpScreen() {
                 labelValue = stringResource(id = R.string.password),
                 painterResource(id = R.drawable.sharp_add_moderator_24)
             )
-            Spacer(modifier = Modifier.height(10.dp))
-            CheckBoxComponent(stringResource(id = R.string.terms_and_conditions))
+            Spacer(modifier = Modifier.height(15.dp))
+            CheckBoxComponent(stringResource(id = R.string.terms_and_conditions),{})
             Spacer(modifier = Modifier.height(60.dp))
             ButtonComponent(value = stringResource(id = R.string.register))
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(25.dp))
             DividerTextComponent()
             Spacer(modifier = Modifier.height(25.dp))
             Row(
@@ -71,6 +69,8 @@ fun SignUpScreen() {
             ) {
                 GoogleButtonComponent()
             }
+            Spacer(modifier = Modifier.height(15.dp))
+            ClickableLoginOrSignUpTextComponent (true,{})
         }
     }
 }

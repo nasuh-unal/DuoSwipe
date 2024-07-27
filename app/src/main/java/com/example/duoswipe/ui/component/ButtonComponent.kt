@@ -49,7 +49,7 @@ fun ButtonComponent(value: String) {
 
 @Preview
 @Composable
-fun preButtonComponent(){
+fun PreButtonComponent(){
     val nasuh="nasuh"
     ButtonComponent(nasuh)
 }
