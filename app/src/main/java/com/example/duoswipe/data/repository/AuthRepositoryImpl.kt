@@ -8,6 +8,7 @@ import com.example.duoswipe.data.model.DeleteAccountResponse
 import com.example.duoswipe.data.model.FirebaseSignInResponse
 import com.example.duoswipe.data.model.OneTapSignInResponse
 import com.example.duoswipe.data.model.Response
+import com.example.duoswipe.data.model.SendEmailVerificationResponse
 import com.example.duoswipe.data.model.SignOutResponse
 import com.example.duoswipe.data.model.SignUpResponse
 import com.example.duoswipe.data.model.isWithinPast
@@ -108,6 +109,15 @@ class AuthRepositoryImpl @Inject constructor(
     ): SignUpResponse {
         return try {
             auth.createUserWithEmailAndPassword(email, password).await()
+            Response.Success(true)
+        } catch (e: Exception) {
+            Response.Failure(e)
+        }
+    }
+
+    override suspend fun sendEmailVerification(): SendEmailVerificationResponse {
+        return try {
+            auth.currentUser?.sendEmailVerification()?.await()
             Response.Success(true)
         } catch (e: Exception) {
             Response.Failure(e)

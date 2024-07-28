@@ -12,7 +12,7 @@ object DataProvider {
     var oneTapSignInResponse by mutableStateOf<OneTapSignInResponse>(Response.Success(null))
     var googleSignInResponse by mutableStateOf<FirebaseSignInResponse>(Response.Success(null))
     var signOutResponse by mutableStateOf<SignOutResponse>(Response.Success(false))
-    var signUpResponse by mutableStateOf<SignUpResponse>(Response.Success(null))
+    var signUpResponse by mutableStateOf<SignUpResponse>(Response.Success(false))
 
     var user by mutableStateOf<FirebaseUser?>(null)
 
@@ -20,6 +20,7 @@ object DataProvider {
 
     var isAnonymous by mutableStateOf(false)
     var deleteAccountResponse by mutableStateOf<SignOutResponse>(Response.Success(false))
+    var sendEmailVerificationResponse by mutableStateOf<SendEmailVerificationResponse>(Response.Success(null))
     var authState by mutableStateOf(AuthState.SignedOut)
         private set
 

@@ -24,12 +24,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.duoswipe.ui.CommonText
 import com.example.duoswipe.ui.component.GoogleSignIn
 import com.example.duoswipe.ui.component.OneTapSignIn
 import com.google.android.gms.auth.api.identity.BeginSignInResult
 import com.google.android.gms.common.api.ApiException
-
+/*
 @Composable
 fun RegisterScreen(
     authViewModel: AuthViewModel,
@@ -140,3 +139,4 @@ fun RegisterScreen(
     }
 }
 
+*/

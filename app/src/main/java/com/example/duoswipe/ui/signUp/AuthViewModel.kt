@@ -46,6 +46,16 @@ class AuthViewModel @Inject constructor(
         DataProvider.googleSignInResponse = repository.signInWithGoogle((credentials))
     }
 
+    fun signUpWithEmailAndPassword(email:String, password:String)=viewModelScope.launch {
+        DataProvider.signUpResponse=Response.Loading
+        DataProvider.signUpResponse=repository.firebaseSignUpWithEmailAndPassword(email, password)
+    }
+
+    fun sendEmailVerification()=viewModelScope.launch{
+        DataProvider.sendEmailVerificationResponse=Response.Loading
+        DataProvider.sendEmailVerificationResponse=repository.sendEmailVerification()
+    }
+
     fun checkNeedsReAuth() = CoroutineScope(Dispatchers.IO).launch {
         if (repository.checkNeedsReAuth()) {
             val idToken = repository.authorizeGoogleSignIn()

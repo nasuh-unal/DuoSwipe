@@ -36,7 +36,9 @@ fun SignUpScreen() {
             .background(Color.White)
             .padding(28.dp)
     ) {
-        Column(modifier = Modifier.fillMaxSize().background(Color.White)) {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)) {
             NormalText(value = stringResource(id = R.string.hi_there))
             HeadingText(value = stringResource(id = R.string.create_account))
             Spacer(modifier = Modifier.height(25.dp))
@@ -57,7 +59,7 @@ fun SignUpScreen() {
                 painterResource(id = R.drawable.sharp_add_moderator_24)
             )
             Spacer(modifier = Modifier.height(15.dp))
-            CheckBoxComponent(stringResource(id = R.string.terms_and_conditions),{})
+            CheckBoxComponent(stringResource(id = R.string.terms_and_conditions), {})
             Spacer(modifier = Modifier.height(60.dp))
             ButtonComponent(value = stringResource(id = R.string.register))
             Spacer(modifier = Modifier.height(25.dp))
@@ -70,7 +72,7 @@ fun SignUpScreen() {
                 GoogleButtonComponent()
             }
             Spacer(modifier = Modifier.height(15.dp))
-            ClickableLoginOrSignUpTextComponent (true,{})
+            ClickableLoginOrSignUpTextComponent(true, {})
         }
     }
 }
