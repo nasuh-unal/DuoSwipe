@@ -103,6 +103,7 @@ class AuthRepositoryImpl @Inject constructor(
         return authenticateUser(googleCredential)
     }
 
+    //yeni
     override suspend fun firebaseSignUpWithEmailAndPassword(
         email: String,
         password: String
@@ -115,6 +116,7 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
+    //yeni
     override suspend fun sendEmailVerification(): SendEmailVerificationResponse {
         return try {
             auth.currentUser?.sendEmailVerification()?.await()

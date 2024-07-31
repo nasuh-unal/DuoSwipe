@@ -96,4 +96,6 @@ dependencies {
     implementation (libs.coil)
     implementation (libs.coil.compose)
 
+    implementation ("androidx.hilt:hilt-navigation-compose:1.0.0")
+
 }

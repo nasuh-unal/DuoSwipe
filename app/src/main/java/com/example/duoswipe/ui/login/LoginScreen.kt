@@ -44,7 +44,7 @@ fun LoginScreen() {
             NormalText(value = stringResource(id = R.string.hi_there))
             HeadingText(value = stringResource(id = R.string.welcome_back))
             Spacer(modifier = Modifier.height(25.dp))
-            TextField(
+            /*TextField(
                 labelValue = stringResource(id = R.string.e_mail),
                 painterResource = painterResource(
                     id = R.drawable.baseline_alternate_email_24
@@ -53,11 +53,11 @@ fun LoginScreen() {
             PasswordTextField(
                 labelValue = stringResource(id = R.string.password),
                 painterResource(id = R.drawable.sharp_add_moderator_24)
-            )
+            )*/
             Spacer(modifier = Modifier.height(15.dp))
             UnderLineText(value = stringResource(id = R.string.forgot_password))
             Spacer(modifier = Modifier.height(150.dp))
-            ButtonComponent(value = stringResource(id = R.string.login))
+            //ButtonComponent(value = stringResource(id = R.string.login))
             Spacer(modifier = Modifier.height(25.dp))
             DividerTextComponent()
             Spacer(modifier = Modifier.height(25.dp))

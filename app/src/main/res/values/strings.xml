@@ -16,6 +16,9 @@
     <string name="register">Register</string>
     <string name="login">Login</string>
     <string name="or">or</string>
+    <string name="already_verified">Already verified?</string>
+    <string name="spam_email">If not, please also check the spam folder.</string>
+    <string name="verify_email_message">We\'ve sent you an email with a link to verify the email.</string>
 
 
 </resources>

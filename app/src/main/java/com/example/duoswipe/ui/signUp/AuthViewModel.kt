@@ -36,10 +36,10 @@ class AuthViewModel @Inject constructor(
         DataProvider.oneTapSignInResponse = repository.oneTapSignIn()
     }
 
-    fun signOut() = CoroutineScope(Dispatchers.IO).launch {
+    /*fun signOut() = CoroutineScope(Dispatchers.IO).launch {
         DataProvider.signOutResponse = Response.Loading
         DataProvider.signOutResponse = repository.signOut()
-    }
+    }*/
 
     fun signInWithGoogle(credentials: SignInCredential) = CoroutineScope(Dispatchers.IO).launch {
         DataProvider.googleSignInResponse = Response.Loading
@@ -56,14 +56,14 @@ class AuthViewModel @Inject constructor(
         DataProvider.sendEmailVerificationResponse=repository.sendEmailVerification()
     }
 
-    fun checkNeedsReAuth() = CoroutineScope(Dispatchers.IO).launch {
+    /*fun checkNeedsReAuth() = CoroutineScope(Dispatchers.IO).launch {
         if (repository.checkNeedsReAuth()) {
             val idToken = repository.authorizeGoogleSignIn()
             if (idToken != null) {
                 deleteAccount(null)
             }
         }
-    }
+    }*/
 
     fun deleteAccount(googleIdToken: String?) = CoroutineScope(Dispatchers.IO).launch {
         Log.i("AuthViewModel:deleteAccount", "Deleting Account...")

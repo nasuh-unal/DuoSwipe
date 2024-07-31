@@ -13,14 +13,12 @@ object DataProvider {
     var googleSignInResponse by mutableStateOf<FirebaseSignInResponse>(Response.Success(null))
     var signOutResponse by mutableStateOf<SignOutResponse>(Response.Success(false))
     var signUpResponse by mutableStateOf<SignUpResponse>(Response.Success(false))
-
     var user by mutableStateOf<FirebaseUser?>(null)
-
     var isAuthenticated by mutableStateOf(false)
-
     var isAnonymous by mutableStateOf(false)
     var deleteAccountResponse by mutableStateOf<SignOutResponse>(Response.Success(false))
     var sendEmailVerificationResponse by mutableStateOf<SendEmailVerificationResponse>(Response.Success(null))
+
     var authState by mutableStateOf(AuthState.SignedOut)
         private set
 

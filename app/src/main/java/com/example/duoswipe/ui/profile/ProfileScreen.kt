@@ -39,7 +39,7 @@ import com.google.android.gms.common.api.ApiException
 
 @Composable
 fun ProfileScreen(
-    authViewModel: AuthViewModel
+    authViewModel: ProfileViewModel
 ) {
     val openLoginDialog = remember { mutableStateOf(false) }
     val openDeleteAccountAlertDialog = remember { mutableStateOf(false) }

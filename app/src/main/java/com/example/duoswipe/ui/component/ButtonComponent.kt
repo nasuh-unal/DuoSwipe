@@ -20,9 +20,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun ButtonComponent(value: String) {
+fun ButtonComponent(
+    onClick: () -> Unit,
+    value: String
+) {
     Button(
-        onClick = {},
+        onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(48.dp),
@@ -34,22 +37,23 @@ fun ButtonComponent(value: String) {
                 .fillMaxWidth()
                 .heightIn(48.dp)
                 .background(
-                    brush = Brush.horizontalGradient(listOf(Color.White,Color.Blue)),
+                    brush = Brush.horizontalGradient(listOf(Color.White, Color.Blue)),
                     shape = RoundedCornerShape(50.dp)
                 ),
             contentAlignment = Alignment.Center
         ) {
-                Text(text = value,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
-                )
+            Text(
+                text = value,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            )
         }
     }
 }
 
 @Preview
 @Composable
-fun PreButtonComponent(){
-    val nasuh="nasuh"
-    ButtonComponent(nasuh)
+fun PreButtonComponent() {
+    val nasuh = "nasuh"
+    //ButtonComponent(nasuh)
 }

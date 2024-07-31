@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.duoswipe.R
@@ -27,11 +28,12 @@ import com.example.duoswipe.ui.theme.Primary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TextField(labelValue: String, painterResource: Painter) {
-    var textValue by remember {
-        mutableStateOf("")
-    }
-
+fun TextField(
+    textValue: TextFieldValue,
+    onValueChange: (newValue: TextFieldValue) -> Unit,
+    labelValue: String,
+    painterResource: Painter
+) {
     OutlinedTextField(
         modifier = Modifier.fillMaxWidth(),
         label = { Text(text = labelValue) },
@@ -39,7 +41,9 @@ fun TextField(labelValue: String, painterResource: Painter) {
         maxLines = 1,
         singleLine = true,
         value = textValue,
-        onValueChange = { textValue = it },
+        onValueChange = { newValue ->
+            onValueChange(newValue)
+        },
         leadingIcon = {
             Icon(
                 painter = painterResource,
@@ -52,6 +56,6 @@ fun TextField(labelValue: String, painterResource: Painter) {
 @Preview
 @Composable
 fun PrevTextField() {
-    TextField("nasuh", painterResource(id = R.drawable.baseline_alternate_email_24))
+//    TextField("nasuh", painterResource(id = R.drawable.baseline_alternate_email_24))
 }
 
