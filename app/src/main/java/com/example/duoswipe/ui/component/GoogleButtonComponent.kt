@@ -23,9 +23,9 @@ import androidx.compose.ui.unit.dp
 import com.example.duoswipe.R
 
 @Composable
-fun GoogleButtonComponent() {
+fun GoogleButtonComponent(onClick: () -> Unit) {
     Button(
-        onClick = {},
+        onClick = onClick,
         modifier = Modifier
             .border(1.dp, Color.Gray, RoundedCornerShape(15.dp))
             .width(42.dp)
@@ -38,7 +38,7 @@ fun GoogleButtonComponent() {
                 //.fillMaxWidth()
                 .heightIn(42.dp)
                 .widthIn(42.dp),
-            verticalAlignment = Alignment . CenterVertically,
+            verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
             Icon(
@@ -54,5 +54,5 @@ fun GoogleButtonComponent() {
 @Preview
 @Composable
 fun PreGoogleButtonComponent() {
-    GoogleButtonComponent()
+//    GoogleButtonComponent()
 }

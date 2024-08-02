@@ -9,10 +9,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
+import com.example.duoswipe.data.model.AuthState
 import com.example.duoswipe.data.model.DataProvider
-import com.example.duoswipe.ui.login.LoginScreen
-import com.example.duoswipe.ui.signUp.AuthViewModel
+import com.example.duoswipe.ui.profile.ProfileScreen
+import com.example.duoswipe.ui.profile.ProfileViewModel
 import com.example.duoswipe.ui.signUp.SignUpScreen
+import com.example.duoswipe.ui.signUp.SignUpViewModel
 import com.example.duoswipe.ui.theme.DuoSwipeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,7 +22,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val viewModel: MainViewModel by viewModels()
-    private val authViewModel by viewModels<AuthViewModel>()
+    private val signUpViewModel by viewModels<SignUpViewModel>()
+    private val profileViewModel by viewModels<ProfileViewModel>()
 
     @OptIn(ExperimentalComposeUiApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +35,7 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
             DuoSwipeTheme {
-                val currentUser = authViewModel.currentUser.collectAsState().value
+                val currentUser = signUpViewModel.currentUser.collectAsState().value
                 DataProvider.updateAuthState(currentUser)
 
                 Log.i("AuthRepo", "Authenticated: ${DataProvider.isAuthenticated}")
@@ -40,12 +43,11 @@ class MainActivity : ComponentActivity() {
                 Log.i("AuthRepo", "User: ${DataProvider.user}")
 
                 val navController = rememberNavController()
-                SignUpScreen()
-//                if (DataProvider.authState != AuthState.SignedOut) {
-//                    ProfileScreen(authViewModel)
-//                } else {
-//                    RegisterScreen(authViewModel)
-//                }
+                if (DataProvider.authState != AuthState.SignedOut) {
+                    ProfileScreen(profileViewModel)
+                } else {
+                    SignUpScreen(signUpViewModel)
+                }
             }
         }
     }

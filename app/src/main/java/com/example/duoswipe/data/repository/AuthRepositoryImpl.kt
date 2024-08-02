@@ -198,6 +198,10 @@ class AuthRepositoryImpl @Inject constructor(
                     Log.e(TAG, "FirebaseAuthError: authLink(credential:) failed, ${error.message}")
                     return authSignIn(credential)
                 }
+                /*Constants.AuthErrors.PROVIDER_ALREADY_LINKED -> {
+                    Log.e(TAG, "FirebaseAuthError: ${error.message}")
+                    return Response.Failure(error)
+                }*/
             }
             Response.Failure(error)
         } catch (error: Exception) {

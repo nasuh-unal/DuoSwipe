@@ -1,5 +1,10 @@
 package com.example.duoswipe.ui.signUp
 
+import android.app.Activity
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -34,16 +40,41 @@ import com.example.duoswipe.ui.component.DividerTextComponent
 import com.example.duoswipe.ui.component.GoogleButtonComponent
 import com.example.duoswipe.ui.component.HeadingText
 import com.example.duoswipe.ui.component.NormalText
+import com.example.duoswipe.ui.component.OneTapSignIn
 import com.example.duoswipe.ui.component.PasswordTextField
 import com.example.duoswipe.ui.component.TextField
+import com.example.duoswipe.ui.signUp.components.GoogleSignIn
 import com.example.duoswipe.ui.signUp.components.SendEmailVerification
 import com.example.duoswipe.ui.signUp.components.SignUp
+import com.google.android.gms.auth.api.identity.BeginSignInResult
+import com.google.android.gms.common.api.ApiException
 
 @Composable
 @ExperimentalComposeUiApi
 fun SignUpScreen(
-    viewModel: SignUpViewModel = hiltViewModel()
+    viewModel: SignUpViewModel ,
+    loginState: MutableState<Boolean>? = null
 ) {
+
+    val launcher =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                try {
+                    val credentials = viewModel.oneTapClient.getSignInCredentialFromIntent(result.data)
+                    viewModel.signInWithGoogle(credentials)
+                } catch (e: ApiException) {
+                    Log.e("LoginScreen:Launcher", "Login One-tap $e")
+                }
+            } else if (result.resultCode == Activity.RESULT_CANCELED) {
+                Log.e("LoginScreen:Launcher", "OneTapClient Canceled")
+            }
+        }
+
+    fun launch(signInResult: BeginSignInResult) {
+        val intent = IntentSenderRequest.Builder(signInResult.pendingIntent.intentSender).build()
+        launcher.launch(intent)
+    }
+
     val context = LocalContext.current
     var email by rememberSaveable(
         stateSaver = TextFieldValue.Saver,
@@ -80,14 +111,6 @@ fun SignUpScreen(
             NormalText(value = stringResource(id = R.string.hi_there))
             HeadingText(value = stringResource(id = R.string.create_account))
             Spacer(modifier = Modifier.height(50.dp))
-            /*TextField(
-                labelValue = stringResource(id = R.string.first_name),
-                painterResource = painterResource(id = R.drawable.baseline_person_24)
-            )
-            TextField(
-                labelValue = stringResource(id = R.string.last_name),
-                painterResource(id = R.drawable.baseline_person_24)
-            )*/
             TextField(
                 textValue = email,
                 onValueChange = { newValue ->
@@ -111,14 +134,14 @@ fun SignUpScreen(
                 onClick = { viewModel.signUpWithEmailAndPassword(email.text, password.text) },
                 value = stringResource(id = R.string.register)
             )
-            Spacer(modifier = Modifier.height(25.dp))
+            Spacer(modifier = Modifier.height(35.dp))
             DividerTextComponent()
-            Spacer(modifier = Modifier.height(25.dp))
+            Spacer(modifier = Modifier.height(35.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                GoogleButtonComponent()
+                GoogleButtonComponent(onClick = { viewModel.oneTapSignIn() })
             }
             Spacer(modifier = Modifier.height(15.dp))
             ClickableLoginOrSignUpTextComponent(true, {})
@@ -134,8 +157,24 @@ fun SignUpScreen(
         }
     )
     SendEmailVerification()
+
+
+
+    OneTapSignIn(
+        launch = {
+            launch(it)
+        }
+    )
+
+    GoogleSignIn {
+        // Dismiss LoginScreen
+        loginState?.let {
+            it.value = false
+        }
+    }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Preview
 @Composable
 fun DefaultPreviewOfSignUpScreen() {

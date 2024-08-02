@@ -1,4 +1,4 @@
-package com.example.duoswipe.ui.login
+package com.example.duoswipe.ui.signIn
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor() : ViewModel() {
-    private val _loginUiState = MutableStateFlow(LoginState())
-    val loginUiState: StateFlow<LoginState> = _loginUiState.asStateFlow()
+class SignInViewModel @Inject constructor() : ViewModel() {
+
 }

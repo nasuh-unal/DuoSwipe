@@ -1,4 +1,4 @@
-package com.example.duoswipe.ui.login
+package com.example.duoswipe.ui.signIn
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -13,19 +13,14 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.duoswipe.R
-import com.example.duoswipe.ui.component.ButtonComponent
 import com.example.duoswipe.ui.component.ClickableLoginOrSignUpTextComponent
 import com.example.duoswipe.ui.component.DividerTextComponent
-import com.example.duoswipe.ui.component.GoogleButtonComponent
 import com.example.duoswipe.ui.component.HeadingText
 import com.example.duoswipe.ui.component.NormalText
-import com.example.duoswipe.ui.component.PasswordTextField
-import com.example.duoswipe.ui.component.TextField
 import com.example.duoswipe.ui.component.UnderLineText
 
 @Composable
@@ -65,7 +60,7 @@ fun LoginScreen() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                GoogleButtonComponent()
+               // GoogleButtonComponent()
             }
             Spacer(modifier = Modifier.height(15.dp))
             ClickableLoginOrSignUpTextComponent(tryingToLogin = false, onTextSelected = {})

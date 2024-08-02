@@ -1,10 +1,11 @@
-package com.example.duoswipe.ui.component
+package com.example.duoswipe.ui.signUp.components
 
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.example.duoswipe.data.model.Response
 import com.example.duoswipe.data.model.DataProvider
+import com.example.duoswipe.ui.component.AuthLoginProgressIndicator
 
 @Composable
 fun GoogleSignIn(

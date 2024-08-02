@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Card
 import androidx.compose.ui.unit.dp
-import com.example.duoswipe.ui.signUp.AuthViewModel
 import android.app.Activity
 import android.util.Log
 import androidx.activity.result.IntentSenderRequest
@@ -39,7 +38,7 @@ import com.google.android.gms.common.api.ApiException
 
 @Composable
 fun ProfileScreen(
-    authViewModel: ProfileViewModel
+    viewModel: ProfileViewModel
 ) {
     val openLoginDialog = remember { mutableStateOf(false) }
     val openDeleteAccountAlertDialog = remember { mutableStateOf(false) }
@@ -50,8 +49,8 @@ fun ProfileScreen(
             if (result.resultCode == Activity.RESULT_OK) {
                 try {
                     val credential =
-                        authViewModel.oneTapClient.getSignInCredentialFromIntent(result.data)
-                    authViewModel.deleteAccount(credential.googleIdToken)
+                        viewModel.oneTapClient.getSignInCredentialFromIntent(result.data)
+                    viewModel.deleteAccount(credential.googleIdToken)
                 } catch (e: ApiException) {
                     Log.e("HomeScreen:Launcher", "Re-auth error: $e")
                 }
@@ -107,7 +106,7 @@ fun ProfileScreen(
                     if (authState != AuthState.SignedIn)
                         openLoginDialog.value = true
                     else
-                        authViewModel.signOut()
+                        viewModel.signOut()
                 },
                 modifier = Modifier
                     .size(width = 160.dp, height = 50.dp)
@@ -154,7 +153,7 @@ fun ProfileScreen(
                 confirmButton = {
                     TextButton(
                         onClick = {
-                            authViewModel.checkNeedsReAuth()
+                            viewModel.checkNeedsReAuth()
                             openDeleteAccountAlertDialog.value = false
                         }
                     ) {
