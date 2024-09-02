@@ -12,6 +12,7 @@ typealias AuthStateResponse = StateFlow<FirebaseUser?>
 typealias DeleteAccountResponse = Response<Boolean>
 typealias SignUpResponse = Response<Boolean>
 typealias SendEmailVerificationResponse = Response<Boolean>
+typealias SignInResponse=Response<Boolean>
 
 
 sealed class Response<out T> {

@@ -139,6 +139,14 @@ class AuthRepositoryImpl @Inject constructor(
         }
         return null
     }
+    override suspend fun firebaseSignInWithEmailAndPassword(
+        email: String, password: String
+    ) = try {
+        auth.signInWithEmailAndPassword(email, password).await()
+        Response.Success(true)
+    } catch (e: Exception) {
+        Response.Failure(e)
+    }
 
     private suspend fun reAuthenticate(googleIdToken: String) {
         val googleCredential = GoogleAuthProvider

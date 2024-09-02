@@ -10,6 +10,7 @@ enum class AuthState {
 }
 object DataProvider {
     var oneTapSignInResponse by mutableStateOf<OneTapSignInResponse>(Response.Success(null))
+    var signInResponse by mutableStateOf<SignInResponse>(Response.Success(null))
     var googleSignInResponse by mutableStateOf<FirebaseSignInResponse>(Response.Success(null))
     var signOutResponse by mutableStateOf<SignOutResponse>(Response.Success(false))
     var signUpResponse by mutableStateOf<SignUpResponse>(Response.Success(false))
