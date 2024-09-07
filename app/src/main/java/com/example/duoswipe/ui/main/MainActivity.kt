@@ -42,24 +42,15 @@ class MainActivity : ComponentActivity() {
                 DataProvider.updateAuthState(currentUser)
 
                 Log.i("AuthRepo", "Authenticated: ${DataProvider.isAuthenticated}")
-                Log.i("AuthRepo", "Anonymous: ${DataProvider.isAnonymous}")
                 Log.i("AuthRepo", "User: ${DataProvider.user}")
 
                 val navController = rememberNavController()
-                /*if (DataProvider.authState != AuthState.SignedOut) {
-                    ProfileScreen(profileViewModel)
-                } else {
-                    SignUpScreen(signUpViewModel)
-                }*/
 
                 if (DataProvider.authState != AuthState.SignedOut) {
                     ProfileScreen(profileViewModel)
                 } else {
-                    SignInScreen(signInViewModel)
+                    SignUpScreen(signUpViewModel)
                 }
-
-                //SignInScreen(signInViewModel)
-                //SignUpScreen(signUpViewModel)
             }
         }
     }

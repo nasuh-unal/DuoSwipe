@@ -6,19 +6,23 @@ import androidx.compose.runtime.setValue
 import com.google.firebase.auth.FirebaseUser
 
 enum class AuthState {
-    Authenticated, SignedIn, SignedOut;
+    SignedIn, SignedOut;
 }
+
 object DataProvider {
-    var oneTapSignInResponse by mutableStateOf<OneTapSignInResponse>(Response.Success(null))
     var signInResponse by mutableStateOf<SignInResponse>(Response.Success(null))
-    var googleSignInResponse by mutableStateOf<FirebaseSignInResponse>(Response.Success(null))
     var signOutResponse by mutableStateOf<SignOutResponse>(Response.Success(false))
     var signUpResponse by mutableStateOf<SignUpResponse>(Response.Success(false))
+    var oneTapSignInResponse by mutableStateOf<OneTapSignInResponse>(Response.Success(null))
+    var googleSignInResponse by mutableStateOf<FirebaseSignInResponse>(Response.Success(null))
     var user by mutableStateOf<FirebaseUser?>(null)
     var isAuthenticated by mutableStateOf(false)
-    var isAnonymous by mutableStateOf(false)
     var deleteAccountResponse by mutableStateOf<SignOutResponse>(Response.Success(false))
-    var sendEmailVerificationResponse by mutableStateOf<SendEmailVerificationResponse>(Response.Success(null))
+    var sendEmailVerificationResponse by mutableStateOf<SendEmailVerificationResponse>(
+        Response.Success(
+            null
+        )
+    )
 
     var authState by mutableStateOf(AuthState.SignedOut)
         private set
@@ -26,10 +30,9 @@ object DataProvider {
     fun updateAuthState(user: FirebaseUser?) {
         this.user = user
         isAuthenticated = user != null
-        isAnonymous = user?.isAnonymous ?: false
 
         authState = if (isAuthenticated) {
-            if (isAnonymous) AuthState.Authenticated else AuthState.SignedIn
+            AuthState.SignedIn
         } else {
             AuthState.SignedOut
         }

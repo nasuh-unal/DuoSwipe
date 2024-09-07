@@ -11,7 +11,6 @@ import com.example.duoswipe.ui.signIn.SignInViewModel
 
 @Composable
 fun SignIn(
-    viewModel: SignInViewModel = hiltViewModel(),
     showErrorMessage: (errorMessage: String?) -> Unit
 ) {
     when(val signInResponse = DataProvider.signInResponse) {
@@ -23,6 +22,7 @@ fun SignIn(
         is Response.Failure -> signInResponse.apply {
             LaunchedEffect(e) {
                 print(e)
+                showErrorMessage(e.message)
             }
         }
     }

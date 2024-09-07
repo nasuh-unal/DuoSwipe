@@ -9,7 +9,8 @@ import com.example.duoswipe.ui.component.AuthLoginProgressIndicator
 
 @Composable
 fun GoogleSignIn(
-    launch: () -> Unit
+    launch: () -> Unit,
+    //showErrorMessage: (errorMessage: String?) -> Unit
 ) {
     when (val signInWithGoogleResponse = DataProvider.googleSignInResponse) {
         is Response.Loading -> {
@@ -20,8 +21,11 @@ fun GoogleSignIn(
             Log.i("Login:GoogleSignIn", "Success: $authResult")
             launch()
         }
-        is Response.Failure -> LaunchedEffect(Unit) {
-            Log.e("Login:GoogleSignIn", "${signInWithGoogleResponse.e}")
+        is Response.Failure -> signInWithGoogleResponse.apply {
+            LaunchedEffect(e) {
+                print(e)
+                //showErrorMessage(e.message)
+            }
         }
     }
 }

@@ -8,7 +8,8 @@ import com.example.duoswipe.data.model.DataProvider
 import com.google.android.gms.auth.api.identity.BeginSignInResult
 @Composable
 fun OneTapSignIn(
-    launch: (result: BeginSignInResult) -> Unit
+    launch: (result: BeginSignInResult) -> Unit,
+    showErrorMessage: (errorMessage: String?) -> Unit
 ) {
     when(val oneTapSignInResponse = DataProvider.oneTapSignInResponse) {
         is Response.Loading ->  {
@@ -20,8 +21,11 @@ fun OneTapSignIn(
                 launch(signInResult)
             }
         }
-        is Response.Failure -> LaunchedEffect(Unit) {
-            Log.e("Login:OneTap", "${oneTapSignInResponse.e}")
+        is Response.Failure -> oneTapSignInResponse.apply {
+            LaunchedEffect(e) {
+                print(e)
+                showErrorMessage(e.message)
+            }
         }
     }
 }

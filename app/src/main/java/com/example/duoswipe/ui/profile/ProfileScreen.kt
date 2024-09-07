@@ -29,7 +29,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import com.example.duoswipe.core.Utils
 import com.example.duoswipe.data.model.AuthState
 import com.example.duoswipe.data.model.DataProvider
 import com.example.duoswipe.ui.component.OneTapSignIn
@@ -40,6 +42,7 @@ import com.google.android.gms.common.api.ApiException
 fun ProfileScreen(
     viewModel: ProfileViewModel
 ) {
+    val context = LocalContext.current
     val openLoginDialog = remember { mutableStateOf(false) }
     val openDeleteAccountAlertDialog = remember { mutableStateOf(false) }
     val authState = DataProvider.authState
@@ -174,6 +177,9 @@ fun ProfileScreen(
     OneTapSignIn(
         launch = {
             launch(it)
+        },
+        showErrorMessage = { errorMessage ->
+            Utils.showMessage(context, errorMessage)
         }
     )
 }

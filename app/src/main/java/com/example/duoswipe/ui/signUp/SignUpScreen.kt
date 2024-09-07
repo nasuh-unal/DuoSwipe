@@ -154,6 +154,9 @@ fun SignUpScreen(
         },
         showVerifyEmailMessage = {
             showMessage(context, "We've sent you an email with a link to verify the email.")
+        },
+        showErrorMessage = { errorMessage ->
+            showMessage(context, errorMessage)
         }
     )
     SendEmailVerification()
@@ -163,6 +166,9 @@ fun SignUpScreen(
     OneTapSignIn(
         launch = {
             launch(it)
+        },
+        showErrorMessage = { errorMessage ->
+            showMessage(context, errorMessage)
         }
     )
 
@@ -172,6 +178,7 @@ fun SignUpScreen(
             it.value = false
         }
     }
+
 }
 
 @OptIn(ExperimentalComposeUiApi::class)

@@ -10,7 +10,8 @@ import com.example.duoswipe.ui.component.AuthLoginProgressIndicator
 @Composable
 fun SignUp(
     sendEmailVerification: () -> Unit,
-    showVerifyEmailMessage: () -> Unit
+    showVerifyEmailMessage: () -> Unit,
+    showErrorMessage: (errorMessage: String?) -> Unit
 ) {
     when(val signUpResponse=DataProvider.signUpResponse){
         is Response.Loading ->{
@@ -29,6 +30,7 @@ fun SignUp(
         is Response.Failure -> signUpResponse.apply {
             LaunchedEffect(e) {
                 print(e)
+                showErrorMessage(e.message)
             }
         }
     }
