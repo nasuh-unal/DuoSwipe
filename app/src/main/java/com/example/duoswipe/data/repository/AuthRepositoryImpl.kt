@@ -9,6 +9,7 @@ import com.example.duoswipe.data.model.FirebaseSignInResponse
 import com.example.duoswipe.data.model.OneTapSignInResponse
 import com.example.duoswipe.data.model.Response
 import com.example.duoswipe.data.model.SendEmailVerificationResponse
+import com.example.duoswipe.data.model.SendPasswordResetEmailResponse
 import com.example.duoswipe.data.model.SignOutResponse
 import com.example.duoswipe.data.model.SignUpResponse
 import com.example.duoswipe.data.model.isWithinPast
@@ -124,6 +125,13 @@ class AuthRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             Response.Failure(e)
         }
+    }
+
+    override suspend fun sendPasswordResetEmail(email: String)= try {
+        auth.sendPasswordResetEmail(email).await()
+        Response.Success(true)
+    } catch (e: Exception) {
+        Response.Failure(e)
     }
 
     override suspend fun authorizeGoogleSignIn(): String? {

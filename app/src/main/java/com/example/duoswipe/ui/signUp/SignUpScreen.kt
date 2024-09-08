@@ -30,7 +30,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.duoswipe.R
 import com.example.duoswipe.core.Utils.Companion.showMessage
 import com.example.duoswipe.ui.component.ButtonComponent

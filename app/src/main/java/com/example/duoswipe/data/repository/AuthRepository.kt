@@ -5,6 +5,7 @@ import com.example.duoswipe.data.model.DeleteAccountResponse
 import com.example.duoswipe.data.model.FirebaseSignInResponse
 import com.example.duoswipe.data.model.OneTapSignInResponse
 import com.example.duoswipe.data.model.SendEmailVerificationResponse
+import com.example.duoswipe.data.model.SendPasswordResetEmailResponse
 import com.example.duoswipe.data.model.SignInResponse
 import com.example.duoswipe.data.model.SignOutResponse
 import com.example.duoswipe.data.model.SignUpResponse
@@ -23,4 +24,5 @@ interface AuthRepository {
     suspend fun firebaseSignUpWithEmailAndPassword(email:String, password:String):SignUpResponse
     suspend fun firebaseSignInWithEmailAndPassword(email: String, password: String): SignInResponse
     suspend fun sendEmailVerification():SendEmailVerificationResponse
+    suspend fun sendPasswordResetEmail(email: String): SendPasswordResetEmailResponse
 }

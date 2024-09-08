@@ -11,6 +11,8 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
 import com.example.duoswipe.data.model.AuthState
 import com.example.duoswipe.data.model.DataProvider
+import com.example.duoswipe.ui.forgotPassword.ForgotPasswordScreen
+import com.example.duoswipe.ui.forgotPassword.ForgotPasswordViewModel
 import com.example.duoswipe.ui.profile.ProfileScreen
 import com.example.duoswipe.ui.profile.ProfileViewModel
 import com.example.duoswipe.ui.signIn.SignInScreen
@@ -27,6 +29,7 @@ class MainActivity : ComponentActivity() {
     private val signUpViewModel by viewModels<SignUpViewModel>()
     private val profileViewModel by viewModels<ProfileViewModel>()
     private val signInViewModel by viewModels<SignInViewModel>()
+    private val forgotPasswordViewModel by viewModels<ForgotPasswordViewModel>()
 
     @OptIn(ExperimentalComposeUiApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,11 +49,8 @@ class MainActivity : ComponentActivity() {
 
                 val navController = rememberNavController()
 
-                if (DataProvider.authState != AuthState.SignedOut) {
-                    ProfileScreen(profileViewModel)
-                } else {
-                    SignUpScreen(signUpViewModel)
-                }
+                ForgotPasswordScreen(forgotPasswordViewModel)
+                //SignUpScreen(viewModel = signUpViewModel)
             }
         }
     }

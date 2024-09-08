@@ -14,6 +14,7 @@ object DataProvider {
     var signOutResponse by mutableStateOf<SignOutResponse>(Response.Success(false))
     var signUpResponse by mutableStateOf<SignUpResponse>(Response.Success(false))
     var oneTapSignInResponse by mutableStateOf<OneTapSignInResponse>(Response.Success(null))
+    var sendPasswordResetEmailResponse by mutableStateOf<SendPasswordResetEmailResponse>(Response.Success(false))
     var googleSignInResponse by mutableStateOf<FirebaseSignInResponse>(Response.Success(null))
     var user by mutableStateOf<FirebaseUser?>(null)
     var isAuthenticated by mutableStateOf(false)
