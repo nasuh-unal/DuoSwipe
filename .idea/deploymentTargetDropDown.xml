@@ -2,6 +2,31 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="FlashCardTextFieldPreview">
+        <State />
+      </entry>
+      <entry key="PreFlashCard">
+        <State />
+      </entry>
+      <entry key="PreOverviewScreen">
+        <State>
+          <targetSelectedWithDropDown>
+            <Target>
+              <type value="QUICK_BOOT_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\Nasuh\.android\avd\Pixel_3a_API_34_extension_level_7_x86_64.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </targetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-12-05T10:41:49.503621900Z" />
+        </State>
+      </entry>
+      <entry key="PreviewCardListOverviewScreen">
+        <State />
+      </entry>
       <entry key="app">
         <State>
           <targetSelectedWithDropDown>
@@ -17,6 +42,9 @@
           </targetSelectedWithDropDown>
           <timeTargetWasSelectedWithDropDown value="2024-09-06T18:16:48.426209600Z" />
         </State>
+      </entry>
+      <entry key="preFlashCard">
+        <State />
       </entry>
     </value>
   </component>

@@ -30,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.duoswipe.R
 import com.example.duoswipe.core.Utils.Companion.showMessage
 import com.example.duoswipe.ui.component.ButtonComponent
@@ -51,8 +52,9 @@ import com.google.android.gms.common.api.ApiException
 @Composable
 @ExperimentalComposeUiApi
 fun SignUpScreen(
-    viewModel: SignUpViewModel ,
-    loginState: MutableState<Boolean>? = null
+    viewModel: SignUpViewModel= hiltViewModel(),
+    loginState: MutableState<Boolean>? = null,
+    navigateToSignUpOrSignInScreen:()->Unit
 ) {
 
     val launcher =
@@ -143,7 +145,7 @@ fun SignUpScreen(
                 GoogleButtonComponent(onClick = { viewModel.oneTapSignIn() })
             }
             Spacer(modifier = Modifier.height(15.dp))
-            ClickableLoginOrSignUpTextComponent(true, {})
+            ClickableLoginOrSignUpTextComponent(true, {},{navigateToSignUpOrSignInScreen()})
         }
     }
 
@@ -160,8 +162,6 @@ fun SignUpScreen(
     )
     SendEmailVerification()
 
-
-
     OneTapSignIn(
         launch = {
             launch(it)
@@ -177,7 +177,6 @@ fun SignUpScreen(
             it.value = false
         }
     }
-
 }
 
 @OptIn(ExperimentalComposeUiApi::class)

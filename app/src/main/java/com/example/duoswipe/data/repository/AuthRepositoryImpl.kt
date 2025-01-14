@@ -44,15 +44,18 @@ class AuthRepositoryImpl @Inject constructor(
     private var signUpRequest: BeginSignInRequest
 
 ) : AuthRepository {
+
+    /*
+    Kullanıcının oturum açıp açmadığını sürekli dinler.
+    auth.currentUser üzerinden oturumdaki kullanıcının bilgilerini alır.
+    callbackFlow sayesinde bu durumu bir Flow nesnesine dönüştürür, böylece ViewModel'de canlı veri olarak kullanılabilir.
+     */
     override fun getAuthState(viewModelScope: CoroutineScope) = callbackFlow {
         val authStateListener = AuthStateListener { auth ->
-            // 4.
             trySend(auth.currentUser)
             Log.i(TAG, "User: ${auth.currentUser?.uid ?: "Not authenticated"}")
         }
-        // 2.
         auth.addAuthStateListener(authStateListener)
-        // 3.
         awaitClose {
             auth.removeAuthStateListener(authStateListener)
         }
@@ -74,6 +77,8 @@ class AuthRepositoryImpl @Inject constructor(
         return false
     }
 
+    /*Kullanıcı butona batığında oturum açma denemesi yapar daha önceden oturum açmış ise
+    signInResult başarılı olur ve fun. biter başarısız olur ise signUpResult kısmı çalışır*/
     override suspend fun oneTapSignIn(): OneTapSignInResponse {
         return try {
             val signInResult = oneTapClient.beginSignIn(signInRequest).await()
@@ -87,6 +92,7 @@ class AuthRepositoryImpl @Inject constructor(
             }
         }
     }
+
 
     override suspend fun signOut(): SignOutResponse {
         return try {
@@ -127,7 +133,7 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun sendPasswordResetEmail(email: String)= try {
+    override suspend fun sendPasswordResetEmail(email: String) = try {
         auth.sendPasswordResetEmail(email).await()
         Response.Success(true)
     } catch (e: Exception) {
@@ -147,6 +153,7 @@ class AuthRepositoryImpl @Inject constructor(
         }
         return null
     }
+
     override suspend fun firebaseSignInWithEmailAndPassword(
         email: String, password: String
     ) = try {

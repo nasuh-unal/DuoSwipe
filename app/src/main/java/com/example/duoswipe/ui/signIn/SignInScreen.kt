@@ -23,8 +23,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.duoswipe.R
 import com.example.duoswipe.core.Utils.Companion.showMessage
+import com.example.duoswipe.data.repository.AuthRepository
 import com.example.duoswipe.ui.component.ButtonComponent
 import com.example.duoswipe.ui.component.ClickableLoginOrSignUpTextComponent
 import com.example.duoswipe.ui.component.DividerTextComponent
@@ -37,7 +40,9 @@ import com.example.duoswipe.ui.signIn.component.SignIn
 
 @Composable
 fun SignInScreen(
-    viewModel:SignInViewModel
+    viewModel:SignInViewModel=hiltViewModel(),
+    navigateToSignUpOrSignInScreen: () -> Unit,
+    navigateToForgotPasswordScreen:()->Unit
 ) {
     var email by rememberSaveable(
         stateSaver = TextFieldValue.Saver,
@@ -92,7 +97,7 @@ fun SignInScreen(
                 painterResource(id = R.drawable.sharp_add_moderator_24)
             )
             Spacer(modifier = Modifier.height(15.dp))
-            UnderLineText(value = stringResource(id = R.string.forgot_password))
+            UnderLineText(value = stringResource(id = R.string.forgot_password),navigateToForgotPasswordScreen)
             Spacer(modifier = Modifier.height(150.dp))
             ButtonComponent(
                 onClick = { viewModel.signInWithEmailAndPassword(email.text,password.text) },
@@ -108,7 +113,7 @@ fun SignInScreen(
                 // GoogleButtonComponent()
             }
             Spacer(modifier = Modifier.height(15.dp))
-            ClickableLoginOrSignUpTextComponent(tryingToLogin = false, onTextSelected = {})
+            ClickableLoginOrSignUpTextComponent(tryingToLogin = false,{}, {navigateToSignUpOrSignInScreen()})
         }
     }
     SignIn(
@@ -116,10 +121,4 @@ fun SignInScreen(
             showMessage(context, errorMessage)
         }
     )
-}
-
-@Preview
-@Composable
-fun PreLoginScreen() {
-    //SignInScreen()
 }

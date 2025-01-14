@@ -1,5 +1,6 @@
 package com.example.duoswipe.ui.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material3.Text
@@ -18,10 +19,11 @@ import androidx.compose.ui.unit.sp
 import com.example.duoswipe.R
 
 @Composable
-fun UnderLineText(value: String) {
+fun UnderLineText(value: String, navigateToForgotPasswordScreen:()->Unit) {
     Text(
         text = value,
         modifier = Modifier
+            .clickable { navigateToForgotPasswordScreen() }
             .fillMaxWidth()
             .heightIn(min = 40.dp),
         style = TextStyle(
@@ -34,8 +36,9 @@ fun UnderLineText(value: String) {
         textDecoration = TextDecoration.Underline
     )
 }
+/*
 @Preview
 @Composable
 fun preUnderLineText(){
     UnderLineText(value = stringResource(id = R.string.forgot_password))
-}
+}*/

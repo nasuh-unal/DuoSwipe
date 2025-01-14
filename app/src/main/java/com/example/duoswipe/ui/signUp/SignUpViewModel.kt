@@ -20,16 +20,16 @@ class SignUpViewModel @Inject constructor(
     val oneTapClient: SignInClient
 ) : ViewModel() {
 
-    val currentUser = getAuthState()
+    //val currentUser = getAuthState()
 
     init {
-        getAuthState()
+        //getAuthState()
         CoroutineScope(Dispatchers.IO).launch {
             repository.verifyGoogleSignIn()
         }
     }
 
-    private fun getAuthState() = repository.getAuthState(viewModelScope)
+    //private fun getAuthState() = repository.getAuthState(viewModelScope)
     fun signUpWithEmailAndPassword(email: String, password: String) = viewModelScope.launch {
         DataProvider.signUpResponse = Response.Loading
         DataProvider.signUpResponse = repository.firebaseSignUpWithEmailAndPassword(email, password)
@@ -73,8 +73,8 @@ class SignUpViewModel @Inject constructor(
         DataProvider.deleteAccountResponse = Response.Loading
         DataProvider.deleteAccountResponse = repository.deleteUserAccount(googleIdToken)
     }
-    fun signOut() = CoroutineScope(Dispatchers.IO).launch {
+    /*fun signOut() = CoroutineScope(Dispatchers.IO).launch {
         DataProvider.signOutResponse = Response.Loading
         DataProvider.signOutResponse = repository.signOut()
-    }
+    }*/
 }

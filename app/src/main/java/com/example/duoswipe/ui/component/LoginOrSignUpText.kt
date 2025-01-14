@@ -1,6 +1,7 @@
 package com.example.duoswipe.ui.component
 
 import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.text.ClickableText
@@ -19,7 +20,11 @@ import androidx.compose.ui.unit.sp
 import com.example.duoswipe.ui.theme.Primary
 
 @Composable
-fun ClickableLoginOrSignUpTextComponent(tryingToLogin: Boolean = true, onTextSelected: (String) -> Unit) {
+fun ClickableLoginOrSignUpTextComponent(
+    tryingToLogin: Boolean = true,
+    onTextSelected: () -> Unit,
+    navigateToSignUpOrSignInScreen: () -> Unit
+) {
     val initialText =
         if (tryingToLogin) "Already have an account? " else "Don’t have an account yet? "
     val loginText = if (tryingToLogin) "Login" else "Register"
@@ -34,6 +39,7 @@ fun ClickableLoginOrSignUpTextComponent(tryingToLogin: Boolean = true, onTextSel
 
     ClickableText(
         modifier = Modifier
+            .clickable { }
             .fillMaxWidth()
             .heightIn(min = 40.dp),
         style = TextStyle(
@@ -46,19 +52,12 @@ fun ClickableLoginOrSignUpTextComponent(tryingToLogin: Boolean = true, onTextSel
         onClick = { offset ->
 
             annotatedString.getStringAnnotations(offset, offset).firstOrNull()?.also { span ->
-                    Log.d("ClickableTextComponent", "{${span.item}}")
+                Log.d("ClickableTextComponent", "{${span.item}}")
 
-                    if (span.item == loginText) {
-                        onTextSelected(span.item)
-                    }
+                if (span.item == loginText) {
+                    navigateToSignUpOrSignInScreen()
                 }
-
+            }
         },
     )
-}
-
-@Preview
-@Composable
-fun PreClickableLoginTextComponent() {
-    ClickableLoginOrSignUpTextComponent(false, {})
 }

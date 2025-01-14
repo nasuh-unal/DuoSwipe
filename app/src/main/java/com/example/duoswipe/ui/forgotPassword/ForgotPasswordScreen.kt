@@ -17,6 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.duoswipe.R
 import com.example.duoswipe.core.Utils.Companion.showMessage
 import com.example.duoswipe.ui.component.ButtonComponent
@@ -24,7 +25,7 @@ import com.example.duoswipe.ui.component.TextField
 import com.example.duoswipe.ui.forgotPassword.component.ForgotPassword
 
 @Composable
-fun ForgotPasswordScreen(viewModel: ForgotPasswordViewModel) {
+fun ForgotPasswordScreen(viewModel: ForgotPasswordViewModel= hiltViewModel()) {
 
     val context = LocalContext.current
     var email by rememberSaveable(

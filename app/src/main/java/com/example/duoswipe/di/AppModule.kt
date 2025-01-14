@@ -6,11 +6,16 @@ import com.example.duoswipe.R
 import com.example.duoswipe.data.model.Constants
 import com.example.duoswipe.data.repository.AuthRepository
 import com.example.duoswipe.data.repository.AuthRepositoryImpl
+import com.example.duoswipe.data.repository.DatabaseRepository
+import com.example.duoswipe.data.repository.DatabaseRepositoryImpl
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,6 +27,15 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
+
+    @Provides
+    fun provideFirebaseDatabaseReference() = Firebase.database.reference
+
+    @Provides
+    fun provideProductsRepository(
+        db: DatabaseReference
+    ): DatabaseRepository = DatabaseRepositoryImpl(db)
+
     @Provides
     @Singleton
     fun provideFirebaseAuth() = FirebaseAuth.getInstance()

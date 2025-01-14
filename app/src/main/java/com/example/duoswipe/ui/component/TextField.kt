@@ -53,9 +53,9 @@ fun TextField(
     )
 }
 
-@Preview
+/*@Preview
 @Composable
 fun PrevTextField() {
-//    TextField("nasuh", painterResource(id = R.drawable.baseline_alternate_email_24))
-}
+    TextField("nasuh", painterResource(id = R.drawable.baseline_alternate_email_24),"nasuh")
+}*/
 

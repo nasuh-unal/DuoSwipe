@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.duoswipe"
-        minSdk = 24
+        minSdk = 33
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -97,5 +97,6 @@ dependencies {
     implementation (libs.coil.compose)
 
     implementation ("androidx.hilt:hilt-navigation-compose:1.0.0")
+    implementation("com.google.firebase:firebase-database:20.3.1")
 
 }
