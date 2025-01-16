@@ -8,3 +8,4 @@ fun Date.isWithinPast(minutes: Int): Boolean {
     val range = timeAgo..now
     return range.contains(this)
 }
+//ext eklentisini kullan-file isminde

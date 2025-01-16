@@ -64,12 +64,13 @@ enum class FabState {
     BLANK, ADD, TURN, NEXT, SAVE, FINISH
 }
 
+
 @Composable
 fun OverviewScreen(
     viewModel: OverviewViewModel = hiltViewModel(),
     navigateToProfileScreen: () -> Unit,
     navigateToOverviewScreen: () -> Unit,
-    navigateToCardListOverviewScreen: (cardKey:String) -> Unit
+    navigateToCardListOverviewScreen: (cardKey: String) -> Unit
 ) {
     val scaffoldState = remember { SnackbarHostState() }
     var fabState by remember { mutableStateOf(FabState.BLANK) }
@@ -124,9 +125,8 @@ fun OverviewScreen(
                         viewModel.setCardAndSetList(
                             listName.text,
                             com.example.duoswipe.data.model.Card(
-                                "",
-                                firstWord.text,
-                                secondWord.text
+                                firstWord=firstWord.text,
+                                secondWord = secondWord.text
                             )
                         )
                     }
@@ -178,29 +178,29 @@ fun OverviewScreen(
         }
         //AddCard(isDialogVisible = isBlurred)
         when (fabState) {
-            FabState.ADD -> FlashCardTextField(
+                FabState.ADD -> FlashCardTextField(
                 frontText = firstWord,
                 backText = secondWord,
                 false,
                 onValueChange = { firstWord = it })
 
-            FabState.TURN -> FlashCardTextField(
+                FabState.TURN -> FlashCardTextField(
                 frontText = firstWord,
                 backText = secondWord,
                 true,
                 onValueChange = { secondWord = it })
 
-            FabState.NEXT -> AddCardToList(
+                FabState.NEXT -> AddCardToList(
                 frontText = firstWord,
                 backText = secondWord
-            )
+                )
 
-            FabState.SAVE -> NewCardListCreate(
+                FabState.SAVE -> NewCardListCreate(
                 listName = listName,
                 onValueChange = { listName = it })
 
-            FabState.BLANK -> {}
-            FabState.FINISH -> {}
+                FabState.BLANK -> {}
+                FabState.FINISH -> {}
         }
     }
     Overview()
@@ -208,7 +208,7 @@ fun OverviewScreen(
 
 @Composable
 fun VerticalCardList(
-    navigateToCardListOverviewScreen: (cardKey:String) -> Unit,
+    navigateToCardListOverviewScreen: (cardKey: String) -> Unit,
     cardLists: CardLists?,
 ) {
     LazyColumn(
@@ -234,7 +234,7 @@ fun VerticalCardList(
                                 .weight(1f)
                                 .aspectRatio(1.1f),
                             onClick = {
-                                index.key?.let {cardKey->
+                                index.key?.let { cardKey ->
                                     navigateToCardListOverviewScreen(cardKey)
                                 }
                             },

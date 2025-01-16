@@ -96,6 +96,8 @@ dependencies {
     implementation (libs.coil)
     implementation (libs.coil.compose)
 
+    implementation ("com.google.accompanist:accompanist-systemuicontroller:0.32.0")
+
     implementation ("androidx.hilt:hilt-navigation-compose:1.0.0")
     implementation("com.google.firebase:firebase-database:20.3.1")
 

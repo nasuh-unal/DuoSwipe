@@ -11,18 +11,20 @@ import javax.inject.Inject
 class DatabaseRepositoryImpl @Inject constructor(
     private val db: DatabaseReference
 ) : DatabaseRepository {
-    override suspend fun getCardListFromRealtimeDatabase(cardKey: String): GetCardListResponse = try {
-        val snapshot = db.child(CARDLISTS).child(cardKey).get().await()
-        val cardList = snapshot.toCardList()
-        if (cardList != null) {
-            Response.Success(cardList)
-        } else {
-            Response.Failure(Exception("CardList not found for key: $cardKey"))
+    override suspend fun getCardListFromRealtimeDatabase(cardKey: String): GetCardListResponse =
+        try {
+            val snapshot = db.child(CARDLISTS).child(cardKey).get().await()
+            val cardList = snapshot.toCardList()
+            if (cardList != null) {
+                Response.Success(cardList)
+            } else {
+                Response.Failure(Exception("CardList not found for key: $cardKey"))
+            }
+        } catch (e: Exception) {
+            Response.Failure(e)
         }
-    } catch (e: Exception) {
-        Response.Failure(e)
-    }
 
+    //metot name düzelt
     override suspend fun getCardListsFromRealtimeDatabase(): GetCardListsResponse = try {
         val cardLists = mutableListOf<CardList>()
         db.child(CARDLISTS).get().await().children.forEach { snapshot ->
@@ -34,6 +36,7 @@ class DatabaseRepositoryImpl @Inject constructor(
         Response.Failure(e)
     }
 
+    //realtime kaldır ismi
     override suspend fun setCardToRealtimeDatabase(
         cardListKey: String,
         card: Card
@@ -51,7 +54,10 @@ class DatabaseRepositoryImpl @Inject constructor(
         Response.Failure(e)
     }
 
-    override suspend fun setCardAndSetListToRealTimeDatabase(cardListName: String, card: Card):SetCardListResponse = try {
+    override suspend fun setCardAndSetListToRealTimeDatabase(
+        cardListName: String,
+        card: Card
+    ): SetCardListResponse = try {
         val listKey = db.child(CARDLISTS).push().key
         if (listKey != null) {
             val cardKey = db.child(CARDLISTS).child(listKey).child("cards").push().key
@@ -66,10 +72,44 @@ class DatabaseRepositoryImpl @Inject constructor(
             Response.Success(true) // Başarılıysa oluşturulan listenin key'ini döndürürüz.
         }
         Response.Success(true)
-    }catch (e: Exception) {
+    } catch (e: Exception) {
+        Response.Failure(e)
+    }
+    override suspend fun deleteCardFromRealtimeDatabase(
+        cardListKey: String,
+        cardKey: String
+    ): Response<Boolean> = try {
+        // Silinmek istenen kartın referansını alıyoruz
+        val cardRef = db.child(CARDLISTS)
+            .child(cardListKey)
+            .child("cards")
+            .child(cardKey)
+
+        // Referansı siliyoruz
+        cardRef.removeValue().await()
+        Response.Success(true)
+    } catch (e: Exception) {
+        Response.Failure(e)
+    }
+
+    override suspend fun updateCardInRealtimeDatabase(
+        cardListKey: String,
+        cardKey: String,
+        updatedFirstWord: String,
+        updatedSecondWord: String
+    ): Response<Boolean> = try {
+        val cardRef = db.child(CARDLISTS).child(cardListKey).child("cards").child(cardKey)
+        val updates = mapOf<String, Any?>(
+            "firstWord" to updatedFirstWord,
+            "secondWord" to updatedSecondWord
+        )
+        cardRef.updateChildren(updates).await()
+        Response.Success(true)
+    } catch (e: Exception) {
         Response.Failure(e)
     }
 }
+
 
 fun DataSnapshot.toCardList(): CardList {
     val listName = child("listName").getValue(String::class.java) ?: ""
@@ -90,4 +130,18 @@ fun DataSnapshot.toCardList(): CardList {
     Response.Success(cardList)
 } catch (e: Exception) {
     Response.Failure(e)
+}*/
+
+/*fun DataSnapshot.toCardList(): CardList {
+    val listName = child("listName").getValue(String::class.java) ?: ""
+    val cards = child("cards").children.mapNotNull { cardSnapshot ->
+        val card = cardSnapshot.getValue(Card::class.java)
+        card?.key = cardSnapshot.key // Kartların key'lerini de set ediyoruz.
+        card
+    }
+    return CardList(
+        key = key ?: "",
+        listName = listName,
+        cards = cards
+    )
 }*/

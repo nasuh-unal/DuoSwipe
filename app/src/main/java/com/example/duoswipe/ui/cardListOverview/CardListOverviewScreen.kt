@@ -1,4 +1,5 @@
 package com.example.duoswipe.ui.cardListOverview
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -37,9 +38,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -50,13 +53,18 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.duoswipe.R
 import com.example.duoswipe.data.model.Card
 import com.example.duoswipe.data.model.Response
+import com.example.duoswipe.ui.component.FlashCardTextField
 import com.example.duoswipe.ui.component.MyBottomBar
+import com.example.duoswipe.ui.overview.FabState
+import com.example.duoswipe.ui.overview.component.AddCardToList
+import com.example.duoswipe.ui.overview.component.NewCardListCreate
 
 @Composable
 fun CardListOverviewScreen(
-    cardKey:String,
+    cardKey: String,
     navigateToProfileScreen: () -> Unit,
     navigateToOverviewScreen: () -> Unit,
+    navigateToUpdateCardScreen: (cardListKey: String, cardKey: String, firstWord: String, secondWord: String) -> Unit,
     viewModel: CardListOverviewViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(Unit) {
@@ -70,7 +78,7 @@ fun CardListOverviewScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = {},
+                onClick = { },
                 modifier = Modifier.offset(y = 60.dp),
                 contentColor = Color.White,
                 containerColor = Color(android.graphics.Color.parseColor("#fe5b52"))
@@ -105,8 +113,12 @@ fun CardListOverviewScreen(
             when (val getCardListResponse = viewModel.getCardListResponse) {
                 is Response.Loading -> println("yükleniyorr") //AuthLoginProgressIndicator()
                 is Response.Success -> {
-                    val aa= getCardListResponse.data?.cards
-                    CardListOverviewList(aa)
+                    val aa = getCardListResponse.data?.cards
+                    CardListOverviewList(
+                        cardList = aa,
+                        cardListKey = getCardListResponse.data?.key.toString(),
+                        navigateToUpdateCardScreen = navigateToUpdateCardScreen
+                    )
                     println(aa)
                 }
                 is Response.Failure -> getCardListResponse.apply {
@@ -121,7 +133,9 @@ fun CardListOverviewScreen(
 
 @Composable
 fun CardListOverviewList(
-    cardList: List<Card>?
+    cardList: List<Card>?,
+    cardListKey: String,
+    navigateToUpdateCardScreen: (cardListKey: String, cardKey: String, firstWord: String, secondWord: String) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -162,12 +176,36 @@ fun CardListOverviewList(
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            //.background(color = Color(android.graphics.Color.parseColor("#fe5b52")))
+                            //.padding(8.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.End
+                        ) {
+                            Text(
+                                text = "Edit",
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = Color.Black,
+                                modifier = Modifier.clickable {
+                                    navigateToUpdateCardScreen(
+                                        cardListKey,
+                                        index.key.toString(),
+                                        index.firstWord.toString(),
+                                        index.secondWord.toString()
+                                    )
+                                }
+                            )
+                        }
+                        Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             UnderlinedTextFieldList(
                                 value = firstWord.text,
                                 onValueChange = { newValue ->
+                                    //secondWord = newValue
                                     firstWord = firstWord.copy(text = newValue)
                                 },
                                 modifier = Modifier
@@ -177,6 +215,7 @@ fun CardListOverviewList(
                             UnderlinedTextFieldList(
                                 value = secondWord.text,
                                 onValueChange = { newValue ->
+                                    //secondWord = newValue
                                     secondWord = secondWord.copy(text = newValue)
                                 },
                                 modifier = Modifier
@@ -188,9 +227,9 @@ fun CardListOverviewList(
                 }
             }
         }
-
     }
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -200,7 +239,6 @@ fun UnderlinedTextFieldList(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
@@ -322,13 +360,14 @@ fun SearchBarWord() {
     }
 }
 
-fun prepareCardList(): List<Card> {
+
+/*fun prepareCardList(): List<Card> {
     val cardItemsList = arrayListOf<Card>()
     cardItemsList.add(Card(firstWord = "nasuh", secondWord = "unal"))
     cardItemsList.add(Card(firstWord = "nasuh", secondWord = "unal"))
     cardItemsList.add(Card(firstWord = "nasuh", secondWord = "unal"))
     return cardItemsList
-}
+}*/
 
 /*@Preview(showBackground = true, showSystemUi = true)
 @Composable
