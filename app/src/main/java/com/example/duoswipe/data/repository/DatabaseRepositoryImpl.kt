@@ -1,10 +1,12 @@
 package com.example.duoswipe.data.repository
+
 import com.example.duoswipe.core.Constants.CARDLISTS
 import com.example.duoswipe.data.model.Card
 import com.example.duoswipe.data.model.CardList
 import com.example.duoswipe.data.model.Response
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.getValue
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -61,14 +63,17 @@ class DatabaseRepositoryImpl @Inject constructor(
         val listKey = db.child(CARDLISTS).push().key
         if (listKey != null) {
             val cardKey = db.child(CARDLISTS).child(listKey).child("cards").push().key
-            card.key = cardKey
+            if(cardKey!=null){
+                card.key = cardKey
 
-            val newCardList = CardList(
-                key = listKey,
-                listName = cardListName,
-                cards = if (cardKey != null) listOf(card.copy(key = cardKey)) else emptyList()
-            )
-            db.child(CARDLISTS).child(listKey).setValue(newCardList).await()
+                val newCardList = CardList(
+                    key = listKey,
+                    listName = cardListName,
+                    cards = null
+                )
+                db.child(CARDLISTS).child(listKey).setValue(newCardList).await()
+                db.child(CARDLISTS).child(listKey).child("cards").child(cardKey).setValue(card).await()
+            }
             Response.Success(true) // Başarılıysa oluşturulan listenin key'ini döndürürüz.
         }
         Response.Success(true)
@@ -109,7 +114,6 @@ class DatabaseRepositoryImpl @Inject constructor(
         Response.Failure(e)
     }
 }
-
 
 fun DataSnapshot.toCardList(): CardList {
     val listName = child("listName").getValue(String::class.java) ?: ""

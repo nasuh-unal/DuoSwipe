@@ -123,9 +123,9 @@ fun OverviewScreen(
                     }
                     if (fabState == FabState.FINISH) {
                         viewModel.setCardAndSetList(
-                            listName.text,
-                            com.example.duoswipe.data.model.Card(
-                                firstWord=firstWord.text,
+                            cardListName = listName.text,
+                            card = com.example.duoswipe.data.model.Card(
+                                firstWord = firstWord.text,
                                 secondWord = secondWord.text
                             )
                         )
@@ -178,29 +178,29 @@ fun OverviewScreen(
         }
         //AddCard(isDialogVisible = isBlurred)
         when (fabState) {
-                FabState.ADD -> FlashCardTextField(
+            FabState.ADD -> FlashCardTextField(
                 frontText = firstWord,
                 backText = secondWord,
                 false,
                 onValueChange = { firstWord = it })
 
-                FabState.TURN -> FlashCardTextField(
+            FabState.TURN -> FlashCardTextField(
                 frontText = firstWord,
                 backText = secondWord,
                 true,
                 onValueChange = { secondWord = it })
 
-                FabState.NEXT -> AddCardToList(
+            FabState.NEXT -> AddCardToList(
                 frontText = firstWord,
                 backText = secondWord
-                )
+            )
 
-                FabState.SAVE -> NewCardListCreate(
+            FabState.SAVE -> NewCardListCreate(
                 listName = listName,
                 onValueChange = { listName = it })
 
-                FabState.BLANK -> {}
-                FabState.FINISH -> {}
+            FabState.BLANK -> {}
+            FabState.FINISH -> {}
         }
     }
     Overview()

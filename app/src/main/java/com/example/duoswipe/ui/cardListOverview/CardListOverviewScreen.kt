@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,6 +17,8 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -121,6 +125,7 @@ fun CardListOverviewScreen(
                     )
                     println(aa)
                 }
+
                 is Response.Failure -> getCardListResponse.apply {
                     LaunchedEffect(key1 = e) {
                         println(e)
@@ -135,6 +140,7 @@ fun CardListOverviewScreen(
 fun CardListOverviewList(
     cardList: List<Card>?,
     cardListKey: String,
+    viewModel: CardListOverviewViewModel = hiltViewModel(),
     navigateToUpdateCardScreen: (cardListKey: String, cardKey: String, firstWord: String, secondWord: String) -> Unit,
 ) {
     LazyColumn(
@@ -172,37 +178,16 @@ fun CardListOverviewList(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp),
+                            .padding(start = 22.dp)
+                            .padding(20.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Row(
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            //.background(color = Color(android.graphics.Color.parseColor("#fe5b52")))
-                            //.padding(8.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.End
-                        ) {
-                            Text(
-                                text = "Edit",
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                color = Color.Black,
-                                modifier = Modifier.clickable {
-                                    navigateToUpdateCardScreen(
-                                        cardListKey,
-                                        index.key.toString(),
-                                        index.firstWord.toString(),
-                                        index.secondWord.toString()
-                                    )
-                                }
-                            )
-                        }
-                        Row(
                             modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            UnderlinedTextFieldList(
+                            /*UnderlinedTextFieldList(
                                 value = firstWord.text,
                                 onValueChange = { newValue ->
                                     //secondWord = newValue
@@ -221,7 +206,48 @@ fun CardListOverviewList(
                                 modifier = Modifier
                                     .weight(1f)
                                     .fillMaxWidth(0.4f)
+                            )*/
+                            Text(
+                                text = firstWord.text, // İlk kelimeyi gösteriyoruz
+                                fontSize = 28.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = Color.Black,
                             )
+                            Text(
+                                text = secondWord.text, // İkinci kelimeyi gösteriyoruz
+                                fontSize = 28.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = Color.Black,
+                                modifier = Modifier
+                            )
+                            Column(
+                                modifier = Modifier.fillMaxHeight(),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Text(
+                                    text = "Edit",
+                                    fontSize = 15.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = Color.Black,
+                                    modifier = Modifier.clickable {
+                                        navigateToUpdateCardScreen(
+                                            cardListKey,
+                                            index.key.toString(),
+                                            index.firstWord.toString(),
+                                            index.secondWord.toString()
+                                        )
+                                    }
+                                )
+                                Text(
+                                    text = "Sil",
+                                    fontSize = 15.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = Color.Black,
+                                    modifier = Modifier.clickable {
+                                        viewModel.deleteCard(cardListKey = cardListKey, cardKey = index.key.toString())
+                                    }
+                                )
+                            }
                         }
                     }
                 }
