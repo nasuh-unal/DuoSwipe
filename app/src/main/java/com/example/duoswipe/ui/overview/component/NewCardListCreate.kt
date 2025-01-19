@@ -55,7 +55,6 @@ fun NewCardListCreate(
                 color = Color.White
             )
         }
-        //Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
             modifier = Modifier.padding(18.dp),
             label = { Text("Enter your text") },

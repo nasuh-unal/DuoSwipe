@@ -14,8 +14,8 @@ fun Overview(
 ) {
     val context = LocalContext.current
     when (val setCarListResponse = viewModel.setCardListAndSetListResponse) {
-        is Response.Loading -> AuthLoginProgressIndicator()
-        is Response.Success -> Unit
+        is Response.Loading -> Unit//AuthLoginProgressIndicator()
+        is Response.Success -> viewModel.getCardLists()//liste ve card oluşturduktan sonra ekranı yenileme işlemi
         is Response.Failure -> setCarListResponse.apply {
             LaunchedEffect(e) {
                 print("nasuhunal"+e)

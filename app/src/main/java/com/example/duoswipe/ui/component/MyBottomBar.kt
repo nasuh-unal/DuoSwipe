@@ -20,6 +20,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.duoswipe.R
+import com.example.duoswipe.data.model.FabState
+import com.example.duoswipe.data.model.OverviewDataProvider.fabState
 
 
 @Composable
@@ -46,8 +48,10 @@ fun MyBottomBar(
                     selectedItem=bottomMenuItem.label
                     if(selectedItem=="Home"){
                         navigateToProfileScreen()
+                        fabState=FabState.BLANK//Bottom barlar arası ekran dolaşımında blank state'e geçiş
                     }else{
                         navigateToOverviewScreen()
+                        fabState=FabState.BLANK
                     }
                 },
                 icon = {

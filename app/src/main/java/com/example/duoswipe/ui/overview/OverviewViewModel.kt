@@ -44,7 +44,7 @@ class OverviewViewModel @Inject constructor(
             cardListsa = response.data!!.toList()
         }
     }
-    private fun getCardLists() = viewModelScope.launch {
+    fun getCardLists() = viewModelScope.launch {//
         getCardListsResponse = Response.Loading
         getCardListsResponse = databaseRepository.getCardListsFromRealtimeDatabase()
     }

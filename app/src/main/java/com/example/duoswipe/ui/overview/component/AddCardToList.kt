@@ -28,7 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.duoswipe.R
+import com.example.duoswipe.data.model.AuthState
 import com.example.duoswipe.data.model.Card
+import com.example.duoswipe.data.model.FabState
+import com.example.duoswipe.data.model.OverviewDataProvider.fabState
 import com.example.duoswipe.ui.overview.OverviewViewModel
 
 @Composable
@@ -98,6 +101,7 @@ fun AddCardToList(
                             .clickable {
                                 index.key?.let { safeKey ->
                                     viewModel.setCard(safeKey, Card(firstWord = frontText.text, secondWord = backText.text))
+                                    fabState=FabState.BLANK //Kartı bir listeye kaydettikten sonra blank ekrana gitmesini sağlıyorum
                                 } ?: Log.e("Error", "index.key is null!")
                             }
                     )

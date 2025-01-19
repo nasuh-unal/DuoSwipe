@@ -1,5 +1,4 @@
 package com.example.duoswipe.ui.overview
-
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -50,6 +49,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.duoswipe.R
 import com.example.duoswipe.core.Utils
 import com.example.duoswipe.data.model.DataProvider
+import com.example.duoswipe.data.model.FabState
+import com.example.duoswipe.data.model.OverviewDataProvider.fabState
 import com.example.duoswipe.data.repository.CardLists
 import com.example.duoswipe.ui.component.FlashCardTextField
 import com.example.duoswipe.ui.component.MyBottomBar
@@ -57,12 +58,11 @@ import com.example.duoswipe.ui.overview.component.AddCardToList
 import com.example.duoswipe.ui.overview.component.NewCardListCreate
 import com.example.duoswipe.ui.overview.component.Overview
 import com.example.duoswipe.ui.overview.component.VerticalCardListCheck
-
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 
-enum class FabState {
+/*enum class FabState {
     BLANK, ADD, TURN, NEXT, SAVE, FINISH
-}
+}*/
 
 
 @Composable
@@ -73,7 +73,7 @@ fun OverviewScreen(
     navigateToCardListOverviewScreen: (cardKey: String) -> Unit
 ) {
     val scaffoldState = remember { SnackbarHostState() }
-    var fabState by remember { mutableStateOf(FabState.BLANK) }
+    //var fabState by remember { mutableStateOf(FabState.BLANK) }
     val context = LocalContext.current
     var listName by rememberSaveable(
         stateSaver = TextFieldValue.Saver,
@@ -129,6 +129,7 @@ fun OverviewScreen(
                                 secondWord = secondWord.text
                             )
                         )
+                        //viewModel.getCardLists()
                     }
                 },
                 modifier = Modifier.offset(y = 60.dp),
