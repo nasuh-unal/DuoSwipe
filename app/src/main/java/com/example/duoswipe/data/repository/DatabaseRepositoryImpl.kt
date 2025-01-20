@@ -63,7 +63,7 @@ class DatabaseRepositoryImpl @Inject constructor(
         val listKey = db.child(CARDLISTS).push().key
         if (listKey != null) {
             val cardKey = db.child(CARDLISTS).child(listKey).child("cards").push().key
-            if(cardKey!=null){
+            if (cardKey != null) {
                 card.key = cardKey
 
                 val newCardList = CardList(
@@ -72,7 +72,8 @@ class DatabaseRepositoryImpl @Inject constructor(
                     cards = null
                 )
                 db.child(CARDLISTS).child(listKey).setValue(newCardList).await()
-                db.child(CARDLISTS).child(listKey).child("cards").child(cardKey).setValue(card).await()
+                db.child(CARDLISTS).child(listKey).child("cards").child(cardKey).setValue(card)
+                    .await()
             }
             Response.Success(true) // Başarılıysa oluşturulan listenin key'ini döndürürüz.
         }
@@ -80,6 +81,7 @@ class DatabaseRepositoryImpl @Inject constructor(
     } catch (e: Exception) {
         Response.Failure(e)
     }
+
     override suspend fun deleteCardFromRealtimeDatabase(
         cardListKey: String,
         cardKey: String
@@ -109,6 +111,29 @@ class DatabaseRepositoryImpl @Inject constructor(
             "secondWord" to updatedSecondWord
         )
         cardRef.updateChildren(updates).await()
+        Response.Success(true)
+    } catch (e: Exception) {
+        Response.Failure(e)
+    }
+
+    override suspend fun deleteCardList(cardListKey: String): SetCardListResponse = try {
+        val cardListRef = db.child(CARDLISTS).child(cardListKey)
+        cardListRef.removeValue().await()
+
+        Response.Success(true)
+    } catch (e: Exception) {
+        Response.Failure(e)
+    }
+
+    override suspend fun updatedCardListName(
+        cardListKey: String,
+        updatedCardListName: String
+    ): SetCardListResponse = try {
+        val cardListRef = db.child(CARDLISTS).child(cardListKey)
+        val updates = mapOf<String, Any?>(
+            "listName" to updatedCardListName
+        )
+        cardListRef.updateChildren(updates).await()
         Response.Success(true)
     } catch (e: Exception) {
         Response.Failure(e)
@@ -149,3 +174,25 @@ fun DataSnapshot.toCardList(): CardList {
         cards = cards
     )
 }*/
+
+
+/*
+Aynısını yukarıda yazdım
+override suspend fun updateCardListName(
+        cardListKey: String,
+        updatedListName: String
+    ): Response<Boolean> = try {
+        // Güncellenmek istenen CardList'in referansını alıyoruz
+        val cardListRef = db.child(CARDLISTS).child(cardListKey)
+
+        // Güncelleme için gereken verileri hazırlıyoruz
+        val updates = mapOf<String, Any?>(
+            "listName" to updatedListName
+        )
+
+        // Veriyi güncelliyoruz
+        cardListRef.updateChildren(updates).await()
+        Response.Success(true)
+    } catch (e: Exception) {
+        Response.Failure(e)
+    }*/

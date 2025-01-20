@@ -235,7 +235,10 @@ fun CardListOverviewList(
                                     fontWeight = FontWeight.SemiBold,
                                     color = Color.Black,
                                     modifier = Modifier.clickable {
-                                        viewModel.deleteCard(cardListKey = cardListKey, cardKey = index.key.toString())
+                                        viewModel.deleteCard(
+                                            cardListKey = cardListKey,
+                                            cardKey = index.key.toString()
+                                        )
                                         viewModel.getCardsList(cardListKey)//silme işlemi sonrası ekranı güncelleme
                                     }
                                 )

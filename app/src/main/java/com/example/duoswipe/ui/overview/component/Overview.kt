@@ -15,7 +15,10 @@ fun Overview(
     val context = LocalContext.current
     when (val setCarListResponse = viewModel.setCardListAndSetListResponse) {
         is Response.Loading -> Unit//AuthLoginProgressIndicator()
-        is Response.Success -> viewModel.getCardLists()//liste ve card oluşturduktan sonra ekranı yenileme işlemi
+        is Response.Success -> {
+            viewModel.getCardLists()//liste ve card oluşturduktan sonra ekranı yenileme işlemi
+            viewModel.fetchCardLists()
+        }
         is Response.Failure -> setCarListResponse.apply {
             LaunchedEffect(e) {
                 print("nasuhunal"+e)

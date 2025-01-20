@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -100,8 +101,12 @@ fun AddCardToList(
                             .padding(end = 8.dp)
                             .clickable {
                                 index.key?.let { safeKey ->
-                                    viewModel.setCard(safeKey, Card(firstWord = frontText.text, secondWord = backText.text))
-                                    fabState=FabState.BLANK //Kartı bir listeye kaydettikten sonra blank ekrana gitmesini sağlıyorum
+                                    viewModel.setCard(
+                                        safeKey,
+                                        Card(firstWord = frontText.text, secondWord = backText.text)
+                                    )
+                                    fabState =
+                                        FabState.BLANK //Kartı bir listeye kaydettikten sonra blank ekrana gitmesini sağlıyorum
                                 } ?: Log.e("Error", "index.key is null!")
                             }
                     )

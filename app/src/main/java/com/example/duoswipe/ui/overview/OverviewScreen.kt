@@ -1,4 +1,5 @@
 package com.example.duoswipe.ui.overview
+
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,7 +23,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -31,8 +34,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -48,6 +53,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.duoswipe.R
 import com.example.duoswipe.core.Utils
+import com.example.duoswipe.data.model.CardList
 import com.example.duoswipe.data.model.DataProvider
 import com.example.duoswipe.data.model.FabState
 import com.example.duoswipe.data.model.OverviewDataProvider.fabState
@@ -58,6 +64,7 @@ import com.example.duoswipe.ui.overview.component.AddCardToList
 import com.example.duoswipe.ui.overview.component.NewCardListCreate
 import com.example.duoswipe.ui.overview.component.Overview
 import com.example.duoswipe.ui.overview.component.VerticalCardListCheck
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 
 /*enum class FabState {
@@ -175,7 +182,8 @@ fun OverviewScreen(
                 navigateToCardListOverviewScreen = navigateToCardListOverviewScreen,
                 showErrorMessage = { errorMessage ->
                     Utils.showMessage(context, errorMessage)
-                })
+                }
+            )
         }
         //AddCard(isDialogVisible = isBlurred)
         when (fabState) {
@@ -211,7 +219,10 @@ fun OverviewScreen(
 fun VerticalCardList(
     navigateToCardListOverviewScreen: (cardKey: String) -> Unit,
     cardLists: CardLists?,
+    viewModel: OverviewViewModel = hiltViewModel()
 ) {
+    var isDeleteMode by remember { mutableStateOf(false) }
+    val selectedCardKeys = remember { mutableStateListOf<String>() }
     LazyColumn(
         contentPadding = PaddingValues(20.dp), verticalArrangement = Arrangement.spacedBy(8.dp),
         //modifier=Modifier.background(color = Color(android.graphics.Color.parseColor("#37c9bb")))
@@ -219,6 +230,21 @@ fun VerticalCardList(
         item {
             NameProfile()
             Title()
+            Button(
+                onClick = {
+                    if (isDeleteMode) {
+                        // Silme işlemi
+                        viewModel.deleteCardsKeysEach(selectedCardKeys)
+                        viewModel.getCardLists()
+                        viewModel.fetchCardLists()
+                        selectedCardKeys.clear()
+                    }
+                    isDeleteMode = !isDeleteMode
+                },
+                modifier = Modifier.padding(8.dp)
+            ) {
+                Text(if (isDeleteMode) "Seçilenleri Sil" else "Sil Modu")
+            }
         }
         cardLists?.let {
             items(cardLists.chunked(2)) { rowIndex ->
@@ -249,6 +275,18 @@ fun VerticalCardList(
                                 verticalArrangement = Arrangement.Center,
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
+                                if (isDeleteMode) {
+                                    Checkbox(
+                                        checked = selectedCardKeys.contains(index.key),
+                                        onCheckedChange = { isSelected ->
+                                            if (isSelected) {
+                                                index.key?.let { selectedCardKeys.add(it) }
+                                            } else {
+                                                index.key?.let { selectedCardKeys.remove(it) }
+                                            }
+                                        }
+                                    )
+                                }
                                 Image(
                                     painter = painterResource(id = R.drawable.baseline_view_headline_24),
                                     contentDescription = null,
@@ -279,6 +317,23 @@ fun VerticalCardList(
         }
     }
 }
+
+/*@Composable
+fun deleteButton() {
+    Button(
+        onClick = {
+            if (isDeleteMode) {
+                // Silme işlemi
+                onDeleteSelected(selectedCards.toList())
+                selectedCards.clear()
+            }
+            isDeleteMode = !isDeleteMode
+        },
+        modifier = Modifier.padding(8.dp)
+    ) {
+        Text(if (isDeleteMode) "Seçilenleri Sil" else "Sil Modu")
+    }
+}*/
 
 @Composable
 fun Title() {

@@ -32,12 +32,28 @@ class OverviewViewModel @Inject constructor(
     var setCardListAndSetListResponse by mutableStateOf<SetCardListResponse>(Response.Success(null))
         private set
 
+    var deleteCardListResponse by mutableStateOf<SetCardListResponse>(Response.Success(null))
+
     init {
         getCardLists()
         fetchCardLists()
     }
 
-    private fun fetchCardLists() = viewModelScope.launch {
+    fun deleteCardsKeysEach(cardKeysToDelete: List<String>){
+        viewModelScope.launch {
+            cardKeysToDelete.forEach { key ->
+                deleteCardListFromDatabase(key)
+            }
+        }
+    }
+
+    private fun deleteCardListFromDatabase(cardListKey:String)=viewModelScope.launch{
+        deleteCardListResponse=Response.Loading
+        deleteCardListResponse=databaseRepository.deleteCardList(cardListKey)
+
+    }
+
+    fun fetchCardLists() = viewModelScope.launch {
         getCardListsResponse = Response.Loading
         val response = databaseRepository.getCardListsFromRealtimeDatabase()
         if (response is Response.Success) {

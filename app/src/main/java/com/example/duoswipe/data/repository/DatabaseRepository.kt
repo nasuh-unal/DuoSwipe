@@ -30,4 +30,8 @@ interface DatabaseRepository {//cardrepo olarak düzenle
         updatedFirstWord: String,
         updatedSecondWord: String
     ):SetCardListResponse
+
+    suspend fun deleteCardList(cardListKey:String):SetCardListResponse
+
+    suspend fun updatedCardListName(cardListKey: String,updatedCardListName:String):SetCardListResponse
 }
