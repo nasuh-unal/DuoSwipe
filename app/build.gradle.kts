@@ -77,6 +77,7 @@ dependencies {
 
     implementation(libs.hilt.android)
     implementation(libs.firebase.auth)
+    implementation(libs.androidx.constraintlayout.compose.android)
     ksp(libs.hilt.compiler)
 
     testImplementation(libs.junit)
