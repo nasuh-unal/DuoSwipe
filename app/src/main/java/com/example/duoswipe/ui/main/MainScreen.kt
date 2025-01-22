@@ -16,6 +16,7 @@ import com.example.duoswipe.core.Constants.FIRSTWORD
 import com.example.duoswipe.core.Constants.SECONDWORD
 import com.example.duoswipe.data.model.AuthState
 import com.example.duoswipe.data.model.Constants.CARDLISTOVERVIEW_SCREEN
+import com.example.duoswipe.data.model.Constants.CARDSTACKCONTROL_SCREEN
 import com.example.duoswipe.data.model.Constants.SIGN_IN_SCREEN
 import com.example.duoswipe.data.model.Constants.FORGOT_PASSWORD_SCREEN
 import com.example.duoswipe.data.model.Constants.OVERVIEW_SCREEN
@@ -26,6 +27,7 @@ import com.example.duoswipe.data.model.Constants.VERIFY_EMAIL_SCREEN
 import com.example.duoswipe.data.model.DataProvider.authState
 import com.example.duoswipe.ui.cardListOverview.CardListOverviewScreen
 import com.example.duoswipe.ui.cardListOverview.component.UpdateCardScreen
+import com.example.duoswipe.ui.cardStack.component.CardStackControl
 import com.example.duoswipe.ui.forgotPassword.ForgotPasswordScreen
 import com.example.duoswipe.ui.overview.OverviewScreen
 import com.example.duoswipe.ui.profile.ProfileScreen
@@ -41,6 +43,7 @@ sealed class Screen(val route: String) {
     object OverviewScreen : Screen(OVERVIEW_SCREEN)
     object CardListOverviewScreen : Screen(CARDLISTOVERVIEW_SCREEN)
     object UpdateCardScreen : Screen(UPDATECARD_SCREEN)
+    object CardStackControl : Screen(CARDSTACKCONTROL_SCREEN)
 }
 
 @ExperimentalComposeUiApi
@@ -103,7 +106,24 @@ fun MainScreen(navController: NavHostController) {
                 navigateToOverviewScreen = { navController.navigate(Screen.OverviewScreen.route) },
                 navigateToUpdateCardScreen = { cardListKey, cardKeyy, firstWord, secondWord ->
                     navController.navigate("${Screen.UpdateCardScreen.route}/$cardListKey/$cardKeyy/$firstWord/$secondWord")
+                },
+                navigateToCardStackControl = {
+                    navController.navigate("${Screen.CardStackControl.route}/${it}")
                 }
+            )
+        }
+
+        composable(
+            route = "${Screen.CardStackControl.route}/{$CARDLIST_KEY}",
+            arguments = mutableStateListOf(
+                navArgument(CARDLIST_KEY) {
+                    type = StringType
+                }
+            )
+        ) { backStackEntry ->
+            val cardListKey = backStackEntry.arguments?.getString(CARDLIST_KEY) ?: "NO_VALUE"
+            CardStackControl(
+                cardListKey
             )
         }
 

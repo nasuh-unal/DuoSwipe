@@ -12,6 +12,7 @@ object Constants {
     const val OVERVIEW_SCREEN="Overview"
     const val CARDLISTOVERVIEW_SCREEN="Card list overview"
     const val UPDATECARD_SCREEN="Update Card Screen"
+    const val CARDSTACKCONTROL_SCREEN="Card Stack Screen"
     object AuthErrors {
         val PROVIDER_ALREADY_LINKED="ERROR_EMAIL_ALREADY_LINKED"
         const val CREDENTIAL_ALREADY_IN_USE = "ERROR_CREDENTIAL_ALREADY_IN_USE"

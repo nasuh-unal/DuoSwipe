@@ -1,4 +1,7 @@
-package com.example.duoswipe.ui.cardStack
+
+package com.example.duoswipe.ui
+/*
+
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -23,6 +26,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -33,27 +37,22 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.constraintlayout.compose.ExperimentalMotionApi
 import com.example.duoswipe.data.model.Card
 import kotlinx.coroutines.launch
 
-enum class SwipeDirection { LEFT, RIGHT }
+enum class SwipeDirectionn { LEFT, RIGHT }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CardStackScreen(
-    cardList: List<Card>
-) {
+fun CardStackScreend(cardList: List<Card>) {
     var currentCardIndex by remember { mutableIntStateOf(0) }
     var correctCount by remember { mutableIntStateOf(0) }
     var wrongCount by remember { mutableIntStateOf(0) }
     val isFinished = currentCardIndex >= cardList.size
-
-
 
     Scaffold(
         topBar = {
@@ -84,17 +83,10 @@ fun CardStackScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            Color(0xFFBBDEFB),
-                            Color(0xFFE3F2FD)
-                        )
-                    )
-                )
+                .background(Brush.verticalGradient(colors = listOf(Color(0xFFBBDEFB), Color(0xFFE3F2FD))))
         ) {
             if (isFinished) {
-                QuizResult(correctCount, wrongCount)
+                QuizResultd(correctCount, wrongCount)
             } else {
                 Column(
                     modifier = Modifier
@@ -104,12 +96,12 @@ fun CardStackScreen(
                 ) {
                     Text(
                         text = "Correct: $correctCount | Wrong: $wrongCount",
-                        fontSize = 24.sp,
+                        fontSize = 18.sp,
                         color = Color(0xFF4CAF50),
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.height(16.dp))
-                    CardStack(
+                    CardStackd(
                         cardList = cardList,
                         currentIndex = currentCardIndex,
                         onSwipe = { direction ->
@@ -123,7 +115,7 @@ fun CardStackScreen(
     }
 }
 @Composable
-fun CardStack(
+fun CardStackd(
     cardList: List<Card>,
     currentIndex: Int,
     onSwipe: (SwipeDirection) -> Unit
@@ -175,12 +167,11 @@ fun CardStack(
                             onDragEnd = {
                                 coroutineScope.launch {
                                     if (abs(offsetX.value) > 300) {
-                                        val effectiveDirection =
-                                            if (rotationY % 360 > 90f && rotationY % 360 < 270f) {
-                                                if (offsetX.value > 0) SwipeDirection.LEFT else SwipeDirection.RIGHT
-                                            } else {
-                                                if (offsetX.value > 0) SwipeDirection.RIGHT else SwipeDirection.LEFT
-                                            }
+                                        val effectiveDirection = if (rotationY % 360 > 90f && rotationY % 360 < 270f) {
+                                            if (offsetX.value > 0) SwipeDirection.LEFT else SwipeDirection.RIGHT
+                                        } else {
+                                            if (offsetX.value > 0) SwipeDirection.RIGHT else SwipeDirection.LEFT
+                                        }
                                         onSwipe(effectiveDirection)
                                         offsetX.snapTo(0f)
                                         offsetY.snapTo(0f)
@@ -215,24 +206,21 @@ fun CardStack(
                         // Ön yüz
                         Text(
                             text = card.secondWord.toString(),
-                            fontSize = 32.sp,
+                            fontSize = 24.sp,
                             textAlign = TextAlign.Center,
                             modifier = Modifier.padding(32.dp),
-                            color = Color.Black,
-                            fontWeight = FontWeight.SemiBold
-
+                            color = Color.Black
                         )
                     } else {
                         // Arka yüz
                         Text(
                             text = card.firstWord.toString(),
-                            fontSize = 32.sp,
+                            fontSize = 24.sp,
                             textAlign = TextAlign.Center,
                             modifier = Modifier
                                 .padding(32.dp)
                                 .graphicsLayer(scaleX = -1f),
-                            color = Color.Black,
-                            fontWeight = FontWeight.SemiBold
+                            color = Color.Black
                         )
                     }
                 }
@@ -243,7 +231,7 @@ fun CardStack(
 
 
 @Composable
-fun QuizResult(correctCount: Int, wrongCount: Int) {
+fun QuizResultd(correctCount: Int, wrongCount: Int) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -258,12 +246,12 @@ fun QuizResult(correctCount: Int, wrongCount: Int) {
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = "Correct: $correctCount",
-            fontSize = 30.sp,
+            fontSize = 24.sp,
             color = Color(0xFF4CAF50)
         )
         Text(
             text = "Wrong: $wrongCount",
-            fontSize = 30.sp,
+            fontSize = 24.sp,
             color = Color(0xFFF44336)
         )
     }
@@ -271,15 +259,16 @@ fun QuizResult(correctCount: Int, wrongCount: Int) {
 
 @Preview
 @Composable
-fun PreCardStackScreen() {
+fun preDenemeee() {
     val cardList = listOf(
-        Card(firstWord = "Merhaba", secondWord = "Hello"),
-        Card(firstWord = "Kalem", secondWord = "Pencil"),
-        Card(firstWord = "Okul", secondWord = "School"),
-        Card(firstWord = "Ev", secondWord = "House"),
-        Card(firstWord = "Bilgisayar", secondWord = "Computer"),
-        Card(firstWord = "Araba", secondWord = "Car"),
-        Card(firstWord = "Kitap", secondWord = "Book")
+        Card(firstWord = "merhaba", secondWord = "hello"),
+        Card(firstWord = "kalem", secondWord = "pencil"),
+        Card(firstWord = "okul", secondWord = "school"),
+        Card(firstWord = "ev", secondWord = "house"),
+        Card(firstWord = "bilgisayar", secondWord = "computer"),
+        Card(firstWord = "araba", secondWord = "car"),
+        Card(firstWord = "kitap", secondWord = "book")
     )
-    CardStackScreen(cardList = cardList)
+    CardStackScreend(cardList = cardList)
 }
+*/

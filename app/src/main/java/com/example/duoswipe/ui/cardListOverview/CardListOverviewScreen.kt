@@ -61,6 +61,7 @@ fun CardListOverviewScreen(
     navigateToProfileScreen: () -> Unit,
     navigateToOverviewScreen: () -> Unit,
     navigateToUpdateCardScreen: (cardListKey: String, cardKey: String, firstWord: String, secondWord: String) -> Unit,
+    navigateToCardStackControl:(cardListKey: String)->Unit,
     viewModel: CardListOverviewViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(Unit) {
@@ -74,7 +75,7 @@ fun CardListOverviewScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { },
+                onClick = { navigateToCardStackControl(cardKey)},
                 modifier = Modifier.offset(y = 60.dp),
                 contentColor = Color.White,
                 containerColor = Color(android.graphics.Color.parseColor("#fe5b52"))

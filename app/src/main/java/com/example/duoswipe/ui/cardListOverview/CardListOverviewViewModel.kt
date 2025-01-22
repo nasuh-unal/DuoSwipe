@@ -28,7 +28,6 @@ class CardListOverviewViewModel @Inject constructor(
         println(cardKey)
         getCardListResponse = Response.Loading
         getCardListResponse = databaseRepository.getCardListFromRealtimeDatabase(cardKey)
-
     }
 
     fun deleteCard(cardListKey: String, cardKey: String) = viewModelScope.launch {
